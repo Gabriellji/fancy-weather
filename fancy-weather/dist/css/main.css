@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    }
+    
+    html, body {
+    margin:0;
+    padding: 0;
+    }
+
+    .main {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 0 6vw;
+        height: 100vh;
+    }
+
+    .button_panel {
+        display: flex;
+        justify-content: space-between;
+        margin: 4rem 0;
+        width: 100%;
+    }
+
+    .buttons {
+        display: flex;
+    }
