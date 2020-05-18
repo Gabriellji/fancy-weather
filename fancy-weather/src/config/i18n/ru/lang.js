@@ -4,16 +4,16 @@ const lang = {
         description: '',
     },
     control: {
-        searchPlaceholder: '',
-        searchBtnTxt: '',
+        searchPlaceholder: 'Найти город или индекс',
+        searchBtnTxt: 'ПОИСК',
     },
     weatherToday: {
-        feelsLike: '',
-        wind: '',
-        humidity: '',
+        feelsLike: 'ОЩУЩАЕТСЯ КАК:',
+        wind: 'ВЕТЕР:',
+        humidity: 'ВЛАЖНОСТЬ:',
     },
     map: {
-        latitude: '',
-        longitude: ''
+        latitude: 'Широта:',
+        longitude: 'Долгота:'
     },
-};
+}

@@ -4,16 +4,16 @@ const lang = {
             description: '',
         },
         control: {
-            searchPlaceholder: '',
-            searchBtnTxt: '',
+            searchPlaceholder: 'Search city or ZIP',
+            searchBtnTxt: 'Search',
         },
         weatherToday: {
-            feelsLike: '',
-            wind: '',
-            humidity: '',
+            feelsLike: 'Feels like:',
+            wind: 'Wind:',
+            humidity: 'Humidity:',
         },
         map: {
-            latitude: '',
-            longitude: ''
+            latitude: 'Latitude:',
+            longitude: 'Longitude:'
         },
     };

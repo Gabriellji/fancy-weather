@@ -4,16 +4,16 @@ const lang = {
         description: '',
     },
     control: {
-        searchPlaceholder: '',
-        searchBtnTxt: '',
+        searchPlaceholder: 'Знайсці горад ці індэкс',
+        searchBtnTxt: 'Пошук',
     },
     weatherToday: {
-        feelsLike: '',
-        wind: '',
-        humidity: '',
+        feelsLike: 'Адчуваецца як:',
+        wind: 'Хуткасць ветру::',
+        humidity: 'Вiльготнасць:',
     },
     map: {
-        latitude: '',
-        longitude: ''
+        latitude: 'Шырата:',
+        longitude: 'Даўгата: '
     },
 };
