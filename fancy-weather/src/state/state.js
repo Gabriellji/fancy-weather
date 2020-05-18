@@ -65,8 +65,8 @@ const state = {
 
     setter(path, value) {
         const pathArr = path.split('.');
-        pathArr.reduce((acc, key) => {
-            if (typeof acc[key] !== 'object') {
+        pathArr.reduce((acc, key, idx, arr) => {
+            if (typeof acc[key] !== 'object' || idx === arr.length - 1) {
                 acc[key] = value;
             }
             return acc[key];
