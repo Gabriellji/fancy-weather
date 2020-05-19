@@ -61,18 +61,6 @@ const state = {
 		},
 	},
 
-		setI18nText(lang) {
-		const langKeys = Object.keys(lang);
-		langKeys.forEach((key) => {
-			this.setter(`${key}.i18n`, lang[key]);
-		});
-	},
-
-	setBgImage(image) {
-        this.setter('main.bgUrl', image);
-    },
-
-
 	setter(path, value) {
 		const pathArr = path.split('.');
 		pathArr.reduce((acc, key, idx, arr) => {
