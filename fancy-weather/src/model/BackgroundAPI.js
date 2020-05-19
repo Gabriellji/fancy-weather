@@ -1,5 +1,4 @@
 import config from '../config/backgroundAPIConfig';
-import state from '../state/state';
 
 const backgroundAPI = {
     url: config.url,
