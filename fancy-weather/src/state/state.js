@@ -13,7 +13,7 @@ const state = {
 		control: {
 			langOptions: [],
 			lang: '',
-			tempScale: '',
+			tempScale: 'C',
 			searchValue: '',
 			i18n: {
 				searchPlaceholder: '',
