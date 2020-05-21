@@ -5,7 +5,7 @@ const weatherAPI = {
 	cache: {},
 
 	async loadWeather(city) {
-		if (this.cach[city] !== undefined) {
+		if (this.cache[city] !== undefined) {
 			return this.cache[city];
 		}
 		const query = `${this.url}?q=${city}&days=4&key=${this.accesKey}`;
