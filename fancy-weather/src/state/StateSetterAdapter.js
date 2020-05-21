@@ -1,4 +1,5 @@
 import state from './state';
+import TranslationAPI from '../model/TranslationAPI';
 
 const stateSetterAdapter = {
 	state,
@@ -18,7 +19,17 @@ const stateSetterAdapter = {
 		this.setWeatherThreeDays(data);
 	},
 
-	setWeatherCurrent(data) {
+	async setWeatherCurrent(data) {
+		let place = `${data.location.name}, ${data.location.country}`;
+		let dataTime = data.location.localtime;
+		let condition = data.current.condition.text;
+
+		const currentLang = this.state.getter('control.lang');
+		if (currentLang !== 'en') {
+			place = await TranslationAPI.loadTranslate(place, currentLang);
+			dataTime = await TranslationAPI.loadTranslate(dataTime, currentLang);
+			condition = await TranslationAPI.loadTranslate(condition, currentLang);
+		}
 		const weatherToday = {
 			place: `${data.location.name}, ${data.location.country}`,
 			dataTime: data.location.localtime,
