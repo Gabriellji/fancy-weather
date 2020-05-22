@@ -2,7 +2,8 @@
     *, :after, :before {
         margin: 0;
         padding: 0;
-        box-sizing: inherit;
+        /* box-sizing: inherit; */
+        outline: none;
     }
 
     html {
@@ -33,7 +34,6 @@
 
     .header {
         margin-top: 4vh;
-        margin-bottom: 4vh;
     }
 
     section {
@@ -87,9 +87,18 @@
         font-size: 30.6rem;
     }
 
+    .cels {
+        position: absolute;
+        font-size: 14rem;
+    }
+
     .weather-data__weather-icon {
         width: 17rem;
         height: 17rem;
+    }
+
+    .weather-data__weather-data {
+        margin-bottom: 8rem;
     }
 
     .weather-data__weather-data>:not(:last-child) {
@@ -139,83 +148,4 @@
         text-align: right;
     }
 
-    .ticker-wrapper {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        height: 4rem;
-        overflow: hidden;
-        box-sizing: content-box;
-        padding-left: 100%;
-        background: -webkit-gradient(linear,left bottom,left top,from(rgba(43,43,66,.6)),color-stop(50%,rgba(43,43,66,.6)),to(rgba(43,43,66,0)));
-        background: linear-gradient(0deg,rgba(43,43,66,.6),rgba(43,43,66,.6) 50%,rgba(43,43,66,0));
-    }
 
-    .ticker-wrapper .ticker {
-        display: inline-block;
-        height: 4rem;
-        box-sizing: content-box;
-        padding-right: 100%;
-        line-height: 4rem;
-        white-space: nowrap;
-        -webkit-animation: ticker 120s linear infinite;
-        animation: ticker 120s linear infinite;
-    }
-
-    @keyframes ticker {
-        0% {
-          -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-          visibility: visible;
-        }
-      
-        100% {
-          -webkit-transform: translate3d(-100%, 0, 0);
-          transform: translate3d(-100%, 0, 0);
-        }
-      }
-
-    .ticker-wrapper .ticker__item {
-        display: inline-block;
-        padding: 0 2rem;
-        font-size: 1.4rem;
-        color: #fff;
-    }
-
-    /* //buttons  */
-
-    .my-super-cool-btn{
-        position:relative;
-        text-decoration:none;
-        color:#fff;
-        letter-spacing:1px;
-        font-size:2rem;
-        box-sizing:border-box;
-      }
-      .my-super-cool-btn span{
-        position:relative;
-        box-sizing:border-box;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        width:50px;
-        height:50px;
-        margin-right: 15px;
-      }
-      .my-super-cool-btn span:before{
-        content:'';
-        width:100%;
-        height:100%;
-        display:block;
-        position:absolute;
-        border-radius: 23%;
-        border: 3px solid #91c0f8;
-        box-sizing:border-box;
-        transition: all .85s cubic-bezier(0.25, 1, 0.33, 1);
-        /* box-shadow: 0 30px 85px rgba(0,0,0,0.14), 0 15px 35px rgba(0,0,0,0.14); */
-      }
-      .my-super-cool-btn:hover span:before{
-        transform:scale(0.8);
-        /* box-shadow: 0 20px 55px rgba(0,0,0,0.14), 0 15px 35px rgba(0,0,0,0.14); */
-      }
-      

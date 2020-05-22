@@ -13,4 +13,14 @@ describe('TranslationAPI test', () => {
 		const translate = await TranslationAPI.loadTranslate('hello', 'ru');
 		expect(typeof translate).toBe('string');
 	});
+
+	test('error', async () => {
+		let msg = '';
+		try {
+			await TranslationAPI.loadTranslate('hello', 'ru', 'fail');
+		} catch (err) {
+			msg = err.message;
+		}
+		expect(msg).toBe('400');
+	});
 });

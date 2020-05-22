@@ -2,4 +2,4 @@ const weekdays = [
 	'Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота',
 ];
 
-export weekdays;
+export default weekdays;

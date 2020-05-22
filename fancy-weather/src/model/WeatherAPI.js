@@ -4,12 +4,20 @@ const weatherAPI = {
 	...config,
 	cache: {},
 
-	async loadWeather(city) {
+	async loadWeather(city, debug = false) {
 		if (this.cache[city] !== undefined) {
 			return this.cache[city];
 		}
-		const query = `${this.url}?q=${city}&days=4&key=${this.accesKey}`;
+		let query = `${this.url}`;
+		if (!debug) {
+			query = `${query}?q=${city}&days=4&key=${this.accesKey}`;
+		} else {
+			query = `${query}?${debug}`;
+		}
 		const response = await fetch(query);
+		if (!response.ok) {
+			throw new Error(response.status);
+		}
 		const data = await response.json();
 		return data;
 	},

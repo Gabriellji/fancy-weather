@@ -18,4 +18,14 @@ describe('WeatherAPI test', () => {
 		const data = await WeatherAPI.loadWeather('Minsk');
 		expect(typeof data).toBe('object');
 	});
+
+	test('error', async () => {
+		let msg = '';
+		try {
+			await WeatherAPI.loadWeather('Minsk', 'fail');
+		} catch (err) {
+			msg = err.message;
+		}
+		expect(msg).toBe('401');
+	});
 });

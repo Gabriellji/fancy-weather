@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fancy-Weather</title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/search-input.css" />
+    <link rel="stylesheet" type="text/css" href="css/buttons-panel.css"/>
+    <link rel="stylesheet" type="text/css" href="css/ticker.css"/>
 </head>
 <body>
     <main class="main">
@@ -47,8 +51,15 @@
                   <button id="C" class="button button_C">°C</button> -->
             </div>
             <div class="search">
-                <input class="search-input" type="search" name="search-city" required="" placeholder="">
-                <button class="button search-input__button">Search</button>
+                <span class="input input--kozakura">
+					<input class="input__field input__field--kozakura" type="text" id="input-7" />
+					<label class="input__label input__label--kozakura" for="input-7">
+						<span class="input__label-content input__label-content--kozakura" data-content="Search city or ZIP">Search city or ZIP</span>
+					</label>
+					<svg class="graphic graphic--kozakura" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+						<path d="M1200,9c0,0-305.005,0-401.001,0C733,9,675.327,4.969,598,4.969C514.994,4.969,449.336,9,400.333,9C299.666,9,0,9,0,9v43c0,0,299.666,0,400.333,0c49.002,0,114.66,3.484,197.667,3.484c77.327,0,135-3.484,200.999-3.484C894.995,52,1200,52,1200,52V9z"/>
+					</svg>
+				</span>
             </div>
         </div>
         </section>
@@ -57,16 +68,16 @@
                     <div class="weather-data">
                         <p class="weather-data__location">Minsk, Belarus</p>
                         <p class="weather-data__date-time">Mon 18 May &nbsp; 23:36</p>
-                        <p class="weather-data__temperature-today">7</p>
+                        <p class="weather-data__temperature-today">7<span class="cels">°</span></p>
                         <img class="weather-data__weather-icon" alt="clear-night" src="https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-2.svg">
                         <div class="weather-data__weather-data">
                             <p class="condition">Clear</p>
                     <p class="feels-like">Feels Like: 5°</p>
                     <p class="wind">Wind: 4 m/s</p>
                     <p class="humidity">Humidity: 70%</p>
-                    <p class="uv">UV: 5°</p>
-                    <p class="sunrise">Sunrise: 4 m/s</p>
-                    <p class="sunset">Sunset: 70%</p>
+                    <!-- <p class="uv">UV: 5°</p> -->
+                    <!-- <p class="sunrise">Sunrise: 4 m/s</p>
+                    <p class="sunset">Sunset: 70%</p> -->
                 </div>
                 <div class="forecast first">
                     <p class="forecast__day">Tuesday</p>
