@@ -14,18 +14,18 @@ describe('GeocodingAPI test', () => {
 		expect(data.results[0].annotations.DMS.lat).toBe("53° 54' 8.40240'' N");
 	});
 
-	// test('is object', async () => {
-	// 	const data = await WeatherAPI.loadWeather('Minsk');
-	// 	expect(typeof data).toBe('object');
-	// });
+	test('is object', async () => {
+		const data = await GeocodingAPI.loadGeoCode('Minsk');
+		expect(typeof data).toBe('object');
+	});
 
-	// test('error', async () => {
-	// 	let msg = '';
-	// 	try {
-	// 		await WeatherAPI.loadWeather('Minsk', 'fail');
-	// 	} catch (err) {
-	// 		msg = err.message;
-	// 	}
-	// 	expect(msg).toBe('401');
-	// });
+	test('error', async () => {
+		let msg = '';
+		try {
+			await GeocodingAPI.loadGeoCode('Minsk', 'fail');
+		} catch (err) {
+			msg = err.message;
+		}
+		expect(msg).toBe('401');
+	});
 });
