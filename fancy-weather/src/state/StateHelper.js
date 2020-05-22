@@ -19,7 +19,7 @@ const stateHelper = {
 
 	async currentWeatherFormat(data) {
 		let place = `${data.location.name}, ${data.location.country}`;
-		let dataTime = data.location.localtime;
+		let dataTime = this.getDateTime(data.location.localtime);
 		let condition = data.current.condition.text;
 
 		const currentLang = this.state.getter('control.lang');
@@ -45,12 +45,13 @@ const stateHelper = {
 	},
 
 	threeDaysWeatherFormat(data) {
+		const currlang = this.state.getter('control.lang');
 		return data.forecast.forecastday.map((dayData) => ({
-			weekDay: this.getWeekDay(dayData.date, 'en'),
+			weekDay: this.getWeekDay(dayData.date, currlang),
 			temp: this.state.getter('control.tempScale') === 'C'
-				? dayData.avgtemp_c
-				: dayData.avgtemp_f,
-			iconUrl: dayData.condition.icon,
+				? dayData.day.avgtemp_c
+				: dayData.day.avgtemp_f,
+			iconUrl: dayData.day.condition.icon,
 		}));
 	},
 };
