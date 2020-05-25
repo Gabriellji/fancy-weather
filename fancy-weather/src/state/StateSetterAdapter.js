@@ -5,11 +5,22 @@ import helper from './StateHelper';
 const stateSetterAdapter = {
 	state,
 	helper,
+
+	setOptions(locale, tempScale) {
+		this.state.setter('control.lang', locale);
+		this.state.setter('control.tempScale', tempScale);
+	},
+
 	setI18nText(lang) {
 		const langKeys = Object.keys(lang);
 		langKeys.forEach((key) => {
 			this.state.setter(`${key}.i18n`, lang[key]);
 		});
+	},
+
+	setCoordinates(lat, long) {
+		this.state.setter('map.lat', lat);
+		this.state.setter('map.long', long);
 	},
 
 	setBgImage(image) {
