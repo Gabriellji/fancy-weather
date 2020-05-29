@@ -1,58 +1,72 @@
-class CurrentWeather {
+import Widget from './Widget';
+
+class CurrentWeather extends Widget {
 	constructor() {
+		super();
+
 		this.weatherPanel = document.querySelector('.weather-main');
 		this.weatherWrapper = document.querySelector('.main-wrapper');
 		this.weatherData = document.querySelector('.weather-data');
 	}
 
-	createCurrentWeatherPanel() {
-		this.weatherData();
-		this.weatherCondition();
+	draw(path) {
+		if (this.isStateReady()) {
+			const weather = this.stateGetterAdapter.getMainWeather();
+			this.weatherMain(weather);
+			this.weatherCondition(weather);
+		}
 	}
 
-	weatherData(locat, time, temp, img) {
+	weatherMain(weather) {
 		const location = document.createElement('p');
 		location.classList.add('weather-data__location');
-		location.textContent = locat;
+		location.textContent = weather.place;
 
 		const dateTime = document.createElement('p');
-		dateTime.classList.add('weather-data__location');
-		dateTime.textContent = time;
+		dateTime.classList.add('weather-data__date-time');
+		dateTime.textContent = weather.dataTime;
 
 		const temperatureToday = document.createElement('p');
 		temperatureToday.classList.add('weather-data__temperature-today');
-		temperatureToday.textContent = temp;
+		temperatureToday.textContent = weather.temp;
+
+		const cels = document.createElement('span');
+		cels.classList.add('cels');
+		cels.textContent = '°';
+
+		temperatureToday.appendChild(cels);
 
 		const icon = document.createElement('img');
 		icon.classList.add('weather-data__weather-icon');
-		icon.setAttribute('src', img);
+		icon.setAttribute('src', weather.iconUrl);
 		icon.setAttribute('alt', 'weather');
 
 		this.weatherData.appendChild(location);
 		this.weatherData.appendChild(dateTime);
 		this.weatherData.appendChild(temperatureToday);
+		// this.weatherData.appendChild(cels);
 		this.weatherData.appendChild(icon);
 	}
 
-	weatherCondition(describ, feels, windd, humid) {
+	weatherCondition(weather) {
 		const weatherCondition = document.createElement('div');
 		weatherCondition.classList.add('weather-data__weather-data');
 
 		const condition = document.createElement('p');
 		condition.classList.add('condition');
-		condition.textContent = describ;
+		condition.textContent = weather.condition;
 
 		const feelsLike = document.createElement('p');
 		feelsLike.classList.add('feels-like');
-		feelsLike.textContent = feels;
+		feelsLike.textContent = `${weather.i18n.feelsLike}: ${weather.feelsLike}`;
 
 		const wind = document.createElement('p');
 		wind.classList.add('wind');
-		wind.textContent = windd;
+		wind.textContent = `${weather.i18n.wind}: ${weather.wind}`;
 
 		const humidity = document.createElement('p');
 		humidity.classList.add('humidity');
-		humidity.textContent = humid;
+		humidity.textContent = `${weather.i18n.humidity}: ${weather.humidity}`;
 
 		weatherCondition.appendChild(condition);
 		weatherCondition.appendChild(feelsLike);

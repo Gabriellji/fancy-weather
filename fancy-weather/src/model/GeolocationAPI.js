@@ -8,7 +8,7 @@ const geolocationAPI = {
 			try {
 				return await this.getPosition();
 			} catch (err) {
-				return err;
+				throw new Error(err);
 			}
 		}
 	},

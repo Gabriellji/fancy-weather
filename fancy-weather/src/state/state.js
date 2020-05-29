@@ -1,25 +1,25 @@
 import eventMixin from '../mixins/eventMixin';
 
 const state = {
+	isReady: false,
 	store: {
+		i18n: {
+			main: {},
+			control: {},
+			weatherToday: {},
+			wearherThreeDays: {},
+			wearherFiveDays: {},
+			map: {},
+		},
 		main: {
 			bgUrl: '',
-			i18n: {
-				title: '',
-				description: '',
-			},
-
 		},
 		control: {
 			langOptions: [],
 			lang: 'en',
 			tempScale: 'C',
 			searchValue: '',
-			i18n: {
-				searchPlaceholder: '',
-				searchBtnTxt: '',
-			},
-
+			is_day: '',
 		},
 		weatherToday: {
 			place: '',
@@ -27,12 +27,6 @@ const state = {
 			value: '',
 			description: '',
 			iconUrl: '',
-			i18n: {
-				feelsLike: '',
-				wind: '',
-				humidity: '',
-			},
-
 		},
 		wearherThreeDays: [
 			{
@@ -51,13 +45,42 @@ const state = {
 				iconUrl: '',
 			},
 		],
+		wearherFiveDays: [
+			{
+				weekDay: '',
+				dataTime: '',
+				month: '',
+				value: '',
+				description: '',
+			}, {
+				weekDay: '',
+				dataTime: '',
+				month: '',
+				value: '',
+				description: '',
+			}, {
+				weekDay: '',
+				dataTime: '',
+				month: '',
+				value: '',
+				description: '',
+			}, {
+				weekDay: '',
+				dataTime: '',
+				month: '',
+				value: '',
+				description: '',
+			}, {
+				weekDay: '',
+				dataTime: '',
+				month: '',
+				value: '',
+				description: '',
+			},
+		],
 		map: {
 			lat: '',
 			long: '',
-			i18n: {
-				latitude: '',
-				longitude: '',
-			},
 		},
 	},
 
@@ -70,12 +93,19 @@ const state = {
 			return acc[key];
 		}, this.store);
 
-		this.emit('stateUpdated', path);
+		if (this.isReady) {
+			this.emit('stateUpdated', path);
+		}
 	},
 
 	getter(path) {
 		const pathArr = path.split('.');
 		return pathArr.reduce((acc, key) => acc[key], this.store);
+	},
+
+	ready() {
+		this.isReady = true;
+		this.emit('stateReady');
 	},
 };
 

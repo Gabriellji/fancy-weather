@@ -5,6 +5,7 @@
 	max-width: 350px;
 	width: calc(100% - 2em);
 	vertical-align: top;
+	top: -17px;
 }
 
 .input__field {

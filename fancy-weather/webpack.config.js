@@ -10,7 +10,7 @@ module.exports = (env, options) => {
 		mode: isProdaction ? 'production' : 'development',
 		devtool: isProdaction ? 'none' : 'source-map',
 		watch: !isProdaction,
-		entry: ['./src/index.js'],
+		entry: ['babel-polyfill', './src/index.js'],
 		output: {
 			path: path.join(__dirname, '/dist'),
 			filename: 'script.js',

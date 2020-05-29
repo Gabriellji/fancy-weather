@@ -11,7 +11,7 @@ describe('GeocodingAPIForward test', () => {
 
 	test('is right data', async () => {
 		const data = await GeocodingAPI.loadGeoCodeForward('Minsk');
-		expect(data.results[0].annotations.DMS.lat).toBe("53° 54' 8.40240'' N");
+		expect(data).toEqual({ lat: 53.9717897, long: 28.0608997 });
 	});
 
 	test('is object', async () => {
@@ -39,12 +39,12 @@ describe('GeocodingAPIReverse test', () => {
 
 	test('is right data', async () => {
 		const data = await GeocodingAPI.loadGeoCodeReverse('53.9', '27.57');
-		expect(data.results[0].components.city).toBe('Minsk');
+		expect(data).toBe('Minsk');
 	});
 
 	test('is object', async () => {
 		const data = await GeocodingAPI.loadGeoCodeReverse('53.9', '27.57');
-		expect(typeof data).toBe('object');
+		expect(typeof data).toBe('string');
 	});
 
 	test('error', async () => {

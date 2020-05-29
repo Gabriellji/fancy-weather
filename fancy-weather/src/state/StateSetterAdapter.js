@@ -14,7 +14,7 @@ const stateSetterAdapter = {
 	setI18nText(lang) {
 		const langKeys = Object.keys(lang);
 		langKeys.forEach((key) => {
-			this.state.setter(`${key}.i18n`, lang[key]);
+			this.state.setter(`i18n.${key}`, lang[key]);
 		});
 	},
 
@@ -27,19 +27,25 @@ const stateSetterAdapter = {
 		this.state.setter('main.bgUrl', image);
 	},
 
-	setWeather(data) {
-		this.setWeatherCurrent(data);
+	async setWeather(data) {
+		await this.setWeatherCurrent(data);
 		this.setWeatherThreeDays(data);
+		await this.setWeatherFiveDays(data);
 	},
 
-	setWeatherCurrent(data) {
-		const weatherToday = this.helper.currentWeatherFormat(data);
+	async setWeatherCurrent(data) {
+		const weatherToday = await this.helper.currentWeatherFormat(data);
 		this.state.setter('weatherToday', weatherToday);
 	},
 
 	setWeatherThreeDays(data) {
 		const weatherThreeDays = this.helper.threeDaysWeatherFormat(data);
 		this.state.setter('weatherThreeDays', weatherThreeDays);
+	},
+
+	async setWeatherFiveDays(data) {
+		const weatherFiveDays = await this.helper.fiveDaysWeatherFormat(data);
+		this.state.setter('weatherFiveDays', weatherFiveDays);
 	},
 };
 

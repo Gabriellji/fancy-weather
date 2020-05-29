@@ -1,7 +1,7 @@
-const mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+import model from './model/Model';
+import View from './view/View';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FicmllbGppIiwiYSI6ImNrYWlia2RzZzBnbGUycnRpa3hxcmoyMWsifQ.XWfWA24Tsh69PdXI3XQjlg';
-const map = new mapboxgl.Map({
-	container: 'map',
-	style: 'mapbox://styles/mapbox/streets-v11',
-});
+// document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure';
+
+new View();
+model.init();

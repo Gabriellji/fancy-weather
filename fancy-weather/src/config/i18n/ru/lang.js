@@ -5,15 +5,26 @@ const lang = {
 	},
 	control: {
 		searchPlaceholder: 'Найти город или индекс',
-		searchBtnTxt: 'ПОИСК',
+		searchBtnTxt: 'Поиск',
 	},
 	weatherToday: {
-		feelsLike: 'ОЩУЩАЕТСЯ КАК:',
-		wind: 'ВЕТЕР:',
-		humidity: 'ВЛАЖНОСТЬ:',
+		feelsLike: 'Ощущается как',
+		wind: 'Ветер',
+		humidity: 'Влажность',
+	},
+	weatherFiveDays: {
+		temp: 'Температура',
+		humidity: 'Влажность',
+		dailyChanceOfRain: 'Вероятность дождя',
+		uv: ' УФ',
+		sunrise: 'Восход',
+		sunset: 'Закат',
+		moonPhase: 'Фаза луны',
 	},
 	map: {
-		latitude: 'Широта:',
-		longitude: 'Долгота:',
+		latitude: 'Широта',
+		longitude: 'Долгота',
 	},
 };
+
+export default lang;

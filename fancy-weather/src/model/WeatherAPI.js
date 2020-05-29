@@ -10,7 +10,7 @@ const weatherAPI = {
 		}
 		let query = `${this.url}`;
 		if (!debug) {
-			query = `${query}?q=${city}&days=4&key=${this.accesKey}`;
+			query = `${query}?q=${city}&days=5&key=${this.accesKey}`;
 		} else {
 			query = `${query}?${debug}`;
 		}

@@ -4,6 +4,12 @@ import state from '../src/state/state';
 
 global.fetch = fetch;
 
+describe('getDay', () => {
+	test('get number of day', () => {
+		expect(stateHelper.getDay('2020-05-18')).toEqual(18);
+	});
+});
+
 describe('getWeekDay', () => {
 	test('get monday en', () => {
 		expect(stateHelper.getWeekDay('2020-05-18', 'en')).toEqual('Monday');
@@ -19,6 +25,24 @@ describe('getWeekDay', () => {
 
 	test('get friday en', () => {
 		expect(stateHelper.getWeekDay('2020-05-22', 'en')).toEqual('Friday');
+	});
+});
+
+describe('getMonths', () => {
+	test('get january en', () => {
+		expect(stateHelper.getMonths('2020-01-18', 'en')).toEqual('January');
+	});
+
+	test('get january ru', () => {
+		expect(stateHelper.getMonths('2020-01-18', 'ru')).toEqual('Января');
+	});
+
+	test('get january be', () => {
+		expect(stateHelper.getMonths('2020-01-18', 'be')).toEqual('Студзеня');
+	});
+
+	test('get may en', () => {
+		expect(stateHelper.getMonths('2020-05-22', 'en')).toEqual('May');
 	});
 });
 
@@ -228,6 +252,181 @@ describe('threeDaysWeatherFormat', () => {
 		state.setter('control.lang', 'be');
 		state.setter('control.tempScale', 'F');
 		const data = await stateHelper.threeDaysWeatherFormat(input);
+		expect(data).toEqual(output);
+	});
+});
+
+describe('fiveDaysWeatherFormat', () => {
+	const input = {
+		location: {},
+		current: {},
+		forecast: {
+			forecastday: [
+				{
+					date: '2020-05-25',
+					day: {
+						avgtemp_c: 11.4,
+						avgtemp_f: 52.5,
+						avghumidity: 75.0,
+						daily_chance_of_rain: '98',
+						condition: {
+							text: 'Light rain',
+						},
+						uv: 3.3,
+					},
+					astro: {
+						sunrise: '04:52 AM',
+						sunset: '09:22 PM',
+						moon_phase: 'Waxing Crescent',
+					},
+				},
+				{
+					date: '2020-05-26',
+					day: {
+						avgtemp_c: 12.8,
+						avgtemp_f: 55.1,
+						avghumidity: 75.0,
+						daily_chance_of_rain: '84',
+						condition: {
+							text: 'Patchy rain possible',
+						},
+						uv: 5.4,
+					},
+					astro: {
+						sunrise: '04:51 AM',
+						sunset: '09:24 PM',
+						moon_phase: 'Waxing Crescent',
+					},
+				},
+				{
+					date: '2020-05-27',
+					day: {
+						avgtemp_c: 9.7,
+						avgtemp_f: 49.5,
+						avghumidity: 75.0,
+						daily_chance_of_rain: '84',
+						condition: {
+							text: 'Overcast',
+						},
+						uv: 5.4,
+					},
+					astro: {
+						sunrise: '04:51 AM',
+						sunset: '09:24 PM',
+						moon_phase: 'Waxing Crescent',
+					},
+				},
+				{
+					date: '2020-05-28',
+					day: {
+						avgtemp_c: 9.7,
+						avgtemp_f: 49.5,
+						avghumidity: 75.0,
+						daily_chance_of_rain: '84',
+						condition: {
+							text: 'Overcast',
+						},
+						uv: 5.4,
+					},
+					astro: {
+						sunrise: '04:51 AM',
+						sunset: '09:24 PM',
+						moon_phase: 'Waxing Crescent',
+					},
+				},
+				{
+					date: '2020-05-29',
+					day: {
+						avgtemp_c: 9.7,
+						avgtemp_f: 49.5,
+						avghumidity: 75.0,
+						daily_chance_of_rain: '84',
+						condition: {
+							text: 'Overcast',
+						},
+						uv: 5.4,
+					},
+					astro: {
+						sunrise: '04:51 AM',
+						sunset: '09:24 PM',
+						moon_phase: 'Waxing Crescent',
+					},
+				},
+			],
+		},
+	};
+
+	test('en C', async () => {
+		const output = [
+			{
+				condition: 'Light rain',
+				dailyChanceOfRain: '98',
+				date: 25,
+				humidity: '75%',
+				month: 'May',
+				moonPhase: 'Waxing Crescent',
+				sunrise: '04:52 AM',
+				sunset: '09:22 PM',
+				temp: 11.4,
+				uv: 3.3,
+				weekDay: 'Monday',
+			},
+			{
+				condition: 'Light rain',
+				dailyChanceOfRain: '84',
+				date: 26,
+				humidity: '75%',
+				month: 'May',
+				moonPhase: 'Waxing Crescent',
+				sunrise: '04:51 AM',
+				sunset: '09:24 PM',
+				temp: 12.8,
+				uv: 5.4,
+				weekDay: 'Tuesday',
+			},
+			{
+				condition: 'Light rain',
+				dailyChanceOfRain: '84',
+				date: 27,
+				humidity: '75%',
+				month: 'May',
+				moonPhase: 'Waxing Crescent',
+				sunrise: '04:51 AM',
+				sunset: '09:24 PM',
+				temp: 9.7,
+				uv: 5.4,
+				weekDay: 'Wednesday',
+			},
+			{
+				condition: 'Light rain',
+				dailyChanceOfRain: '84',
+				date: 28,
+				humidity: '75%',
+				month: 'May',
+				moonPhase: 'Waxing Crescent',
+				sunrise: '04:51 AM',
+				sunset: '09:24 PM',
+				temp: 9.7,
+				uv: 5.4,
+				weekDay: 'Thursday',
+			},
+			{
+				condition: 'Light rain',
+				dailyChanceOfRain: '84',
+				date: 29,
+				humidity: '75%',
+				month: 'May',
+				moonPhase: 'Waxing Crescent',
+				sunrise: '04:51 AM',
+				sunset: '09:24 PM',
+				temp: 9.7,
+				uv: 5.4,
+				weekDay: 'Friday',
+			},
+		];
+		state.setter('control.lang', 'en');
+		state.setter('control.tempScale', 'C');
+		const data = await stateHelper.fiveDaysWeatherFormat(input);
 		expect(data).toEqual(output);
 	});
 });
