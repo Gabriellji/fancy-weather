@@ -61,12 +61,25 @@
     }
     
     .main-wrapper {
+        display: -webkit-box;
         display: flex;
+        -webkit-box-pack: justify;
         justify-content: space-between;
+        -webkit-box-align: center;
         align-items: center;
         flex-wrap: wrap;
         margin: 0 6vw;
     }
+
+    .weazzz {
+        display: flex;
+    }
+
+    /* @media (max-width: 1180px) {
+        .weazzz {
+            justify-content: center;
+        }
+    } */
 
     .weather-data {
         display: grid;
@@ -160,4 +173,78 @@
         text-align: right;
     }
 
+    @media (max-width: 1200px) {
+        .main-wrapper {
+            -webkit-box-pack: center;
+            justify-content: center;
+        }
+        }
+    
+        @media (max-width: 600px) {
+        .weather-data {
+            grid-template-columns: repeat(3,10rem);
+            -webkit-box-pack: center;
+            justify-content: center;
+        }
+        }
+    
+        @media (max-width: 600px) {
+        .forecast, .weather-data__weather-data {
+            grid-column: 1/4;
+            -webkit-box-pack: center;
+            justify-content: center;
+            text-align: center;
+        }
+        }
+    
+        @media (max-width: 600px) {
+        .weather-data__weather-data {
+            margin-top: 2rem;
+        }
+        }
+    
+        @media (max-width: 900px) {
+        .weather-data__date-time, .weather-data__location {
+            text-align: center;
+        }
+        }
+    
+        @media (max-width: 600px) {
+        .weather-data__temperature-today {
+            grid-column: 1/4;
+            font-size: 18.6rem;
+        }
+        }
+    
+        @media (max-width: 600px) {
+        .weather-data__weather-icon {
+            grid-column: 1/4;
+            margin: 0 auto;
+        }
+        }
+    
+        @media (max-width: 900px) {
+        .forecast {
+            margin: 0 2.5rem;
+        }
+        }
+    
+        @media (max-width: 1200px) {
+        .map {
+            margin-top: 10rem;
+        }
+        }
+    
+        @media (max-width: 900px) {
+        .ticker-wrapper {
+            display: none;
+        }
+        }
+    
+        @media (max-width: 1200px) {
+        .map__coordinates {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        }
 

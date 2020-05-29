@@ -12,9 +12,9 @@ const backgroundAPI = {
 	async loadBgImage(search = false) {
 		let query;
 		if (this.state.getter('control.is_day')) {
-			query = `${this.url}?orientation=${this.orientation}&query=Day,Cloud,Outdoor&per_page=1&client_id=${this.accesKey}`;
+			query = `${this.url}?orientation=${this.orientation}&query=Day,Asia,Cloud,Outdoor&per_page=1&client_id=${this.accesKey}`;
 		} else {
-			query = `${this.url}?orientation=${this.orientation}&query=Night,Cloud,Outdoor&per_page=1&client_id=${this.accesKey}`;
+			query = `${this.url}?orientation=${this.orientation}&query=night,cloud,cyberpunk,nature&per_page=1&client_id=${this.accesKey}`;
 		}
 		if (!search) {
 			query = `${query}&collections=${this.collectionsID}`;

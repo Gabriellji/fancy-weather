@@ -72,6 +72,13 @@ const Model = {
 		);
 	},
 
+	async changeTemp(tempScale) {
+		this.stateSetterAdapter.setScale(tempScale);
+
+		const weather = await this.weatherAPI.loadWeather(this.city);
+		await this.stateSetterAdapter.setWeather(weather);
+	},
+
 	async searchCity(city) {
 		this.stateSetterAdapter.setSearch(city);
 		this.city = city;

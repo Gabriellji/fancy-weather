@@ -13,7 +13,7 @@ class Map extends Widget {
 
 		this.mapBoxgl = new mapboxgl.Map({
 			container: 'map',
-			zoom: 10,
+			zoom: 8,
 			style: 'mapbox://styles/mapbox/streets-v11',
 		});
 	}

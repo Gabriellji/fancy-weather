@@ -28,7 +28,8 @@ class Buttons extends Widget {
 		const button = document.createElement('button');
 		button.classList.add('c-smileyButton');
 		button.textContent = '&nbsp';
-		button.textContent = 'Click me'; // &nbsp;
+		button.textContent = 'Click'; // &nbsp;
+		
 
 		const smileFace = document.createElement('span');
 		smileFace.classList.add('c-smileyButton__face');
@@ -90,9 +91,15 @@ class Buttons extends Widget {
 			}
 			a.classList.add('my-super-cool-btn-temp');
 			a.setAttribute('href', '#');
+			span.setAttribute('data-temp', spanInnerText[i]);
 			span.classList.add('btn-temp');
 			span.innerHTML = spanInnerText[i];
 			a.appendChild(span);
+
+			span.addEventListener('click', ((e) => {
+				this.model.changeTemp(e.target.getAttribute('data-temp'));
+			}));
+
 			temperatureBox.appendChild(a);
 		}
 		this.buttonsPanel.appendChild(temperatureBox);

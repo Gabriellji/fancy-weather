@@ -36,6 +36,9 @@ class Ticker extends Widget {
 			newItem = document.createElement('p');
 			newItem.classList.add('ticker__item');
 			newItem.textContent = '||';
+			const img = document.createElement('img');
+			img.setAttribute('src', '/assets/sun(1).svg');
+			newItem.appendChild(img);
 			tickerBox.appendChild(newItem);
 		});
 

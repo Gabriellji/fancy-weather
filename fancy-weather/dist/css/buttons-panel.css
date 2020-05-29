@@ -1,7 +1,6 @@
 
     .buttons {
         display: flex;
-        min-width: 398px;
         justify-content: space-between;
     }
 
@@ -101,6 +100,7 @@
   .my-super-cool-btn:focus {
     outline: none;
 }
+
 
   .my-super-cool-btn-temp:focus {
       outline: none;
