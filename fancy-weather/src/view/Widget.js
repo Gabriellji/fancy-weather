@@ -1,9 +1,11 @@
 import state from '../state/state';
 import stateGetterAdapter from '../state/StateGetterAdapter';
+import model from '../model/Model';
 
 
 class Widget {
 	constructor() {
+		this.model = model;
 		this.state = state;
 		this.stateGetterAdapter = stateGetterAdapter;
 

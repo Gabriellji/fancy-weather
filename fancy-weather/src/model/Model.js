@@ -40,17 +40,53 @@ const Model = {
 			this.geolocation.latitude,
 			this.geolocation.longitude,
 		);
-		const city = await this.geocodingAPI.loadGeoCodeReverse(
+		this.city = await this.geocodingAPI.loadGeoCodeReverse(
 			this.geolocation.latitude,
 			this.geolocation.longitude,
 		);
+
+		const weather = await this.weatherAPI.loadWeather(this.city);
+		await this.stateSetterAdapter.setWeather(weather);
+
+		this.stateSetterAdapter.isDay(weather.current.is_day);
+
 		const background = await this.backgroundAPI.loadBgImage();
 		this.stateSetterAdapter.setBgImage(background);
 
-		const weather = await this.weatherAPI.loadWeather(city);
+		this.state.ready();
+	},
+
+	async reloadBg() {
+		const background = await this.backgroundAPI.loadBgImage();
+		this.stateSetterAdapter.setBgImage(background);
+	},
+
+	async changeLang(locale) {
+		this.stateSetterAdapter.setLang(locale);
+
+		const weather = await this.weatherAPI.loadWeather(this.city);
 		await this.stateSetterAdapter.setWeather(weather);
 
-		this.state.ready();
+		this.stateSetterAdapter.setI18nText(
+			this.i18n.getStaticText(locale),
+		);
+	},
+
+	async searchCity(city) {
+		this.stateSetterAdapter.setSearch(city);
+		this.city = city;
+
+		const geoRequest = await this.geocodingAPI.loadGeoCodeForward(city);
+
+		this.stateSetterAdapter.setCoordinates(
+			geoRequest.lat,
+			geoRequest.long,
+		);
+
+		const weather = await this.weatherAPI.loadWeather(this.city);
+		await this.stateSetterAdapter.setWeather(weather);
+
+		this.reloadBg();
 	},
 };
 

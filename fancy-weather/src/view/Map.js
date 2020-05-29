@@ -20,6 +20,7 @@ class Map extends Widget {
 
 	draw(path) {
 		if (this.isStateReady()) {
+			this.coordinates.innerHTML = '';
 			const coords = this.stateGetterAdapter.getCoordinates();
 			this.createMap(coords);
 			this.mapBoxgl.setCenter([coords.long, coords.lat]);
@@ -34,14 +35,16 @@ class Map extends Widget {
 		map.classList.add('map__map');
 		map.setAttribute('id', 'map');
 
+		this.coordinates = document.createElement('div');
+		this.coordinates.classList.add('map__coordinates');
+
 		this.mapBox.appendChild(map);
+		this.mapBox.appendChild(this.coordinates);
+
 		this.weatherWrapper.appendChild(this.mapBox);
 	}
 
 	createMap(coords) {
-		const coordinates = document.createElement('div');
-		coordinates.classList.add('map__coordinates');
-
 		const latitude = document.createElement('p');
 		latitude.classList.add('latitude');
 		latitude.textContent = `${coords.i18n.latitude}: ${coords.lat}`;
@@ -49,10 +52,8 @@ class Map extends Widget {
 		longitude.classList.add('longitude');
 		longitude.textContent = `${coords.i18n.longitude}: ${coords.long}`;
 
-		coordinates.appendChild(latitude);
-		coordinates.appendChild(longitude);
-
-		this.mapBox.appendChild(coordinates);
+		this.coordinates.appendChild(latitude);
+		this.coordinates.appendChild(longitude);	
 	}
 }
 

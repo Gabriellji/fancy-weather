@@ -9,8 +9,8 @@ class Ticker extends Widget {
 
 	draw(path) {
 		if (this.isStateReady()) {
+			this.tickerWrapper.innerHTML = '';
 			const weather = this.stateGetterAdapter.getFiveDaysForecast();
-			console.log(weather);
 			this.createTickerPanel(weather);
 		}
 	}

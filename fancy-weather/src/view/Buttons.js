@@ -11,6 +11,7 @@ class Buttons extends Widget {
 	}
 
 	draw() {
+		this.buttonsPanel.innerHTML = '';
 		this.createPanel();
 	}
 
@@ -26,6 +27,7 @@ class Buttons extends Widget {
 
 		const button = document.createElement('button');
 		button.classList.add('c-smileyButton');
+		button.textContent = '&nbsp';
 		button.textContent = 'Click me'; // &nbsp;
 
 		const smileFace = document.createElement('span');
@@ -34,6 +36,10 @@ class Buttons extends Widget {
 
 		button.appendChild(smileFace);
 		buttonBox.appendChild(button);
+
+		button.addEventListener('click', (() => {
+			this.model.reloadBg();
+		}));
 
 		this.buttonsPanel.appendChild(buttonBox);
 	}
@@ -54,9 +60,15 @@ class Buttons extends Widget {
 			}
 			a.classList.add('my-super-cool-btn');
 			a.setAttribute('href', '#');
+			span.setAttribute('data-lang', spanInnerText[i]);
 			span.classList.add('btn');
 			span.innerHTML = spanInnerText[i];
 			a.appendChild(span);
+
+			span.addEventListener('click', ((e) => {
+				this.model.changeLang(e.target.getAttribute('data-lang'));
+			}));
+
 			languageBox.appendChild(a);
 		}
 		this.buttonsPanel.appendChild(languageBox);

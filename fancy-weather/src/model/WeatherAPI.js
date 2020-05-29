@@ -19,6 +19,7 @@ const weatherAPI = {
 			throw new Error(response.status);
 		}
 		const data = await response.json();
+		this.cache[city] = data;
 		return data;
 	},
 };

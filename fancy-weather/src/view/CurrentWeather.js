@@ -11,6 +11,7 @@ class CurrentWeather extends Widget {
 
 	draw(path) {
 		if (this.isStateReady()) {
+			this.weatherData.innerHTML = '';
 			const weather = this.stateGetterAdapter.getMainWeather();
 			this.weatherMain(weather);
 			this.weatherCondition(weather);

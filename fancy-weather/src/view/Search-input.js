@@ -5,6 +5,12 @@ class Search extends Widget {
 		super();
 
 		this.labelSpan = document.querySelector('.input__label-content');
+		this.input = document.querySelector('#input-7');
+		this.input.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter') {
+				this.model.searchCity(this.input.value);
+			}
+		});
 	}
 
 	draw(path) {

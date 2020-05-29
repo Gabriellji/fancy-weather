@@ -11,6 +11,18 @@ const stateSetterAdapter = {
 		this.state.setter('control.tempScale', tempScale);
 	},
 
+	setLang(locale) {
+		this.state.setter('control.lang', locale);
+	},
+
+	setScale(tempScale) {
+		this.state.setter('control.tempScale', tempScale);
+	},
+
+	setSearch(search) {
+		this.state.setter('control.searchValue', search);
+	},
+
 	setI18nText(lang) {
 		const langKeys = Object.keys(lang);
 		langKeys.forEach((key) => {
@@ -25,6 +37,10 @@ const stateSetterAdapter = {
 
 	setBgImage(image) {
 		this.state.setter('main.bgUrl', image);
+	},
+
+	isDay(day) {
+		this.state.setter('control.is_day', day);
 	},
 
 	async setWeather(data) {
