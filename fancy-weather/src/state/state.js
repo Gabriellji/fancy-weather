@@ -13,6 +13,7 @@ const state = {
 		},
 		main: {
 			bgUrl: '',
+			city: '',
 		},
 		control: {
 			langOptions: [],

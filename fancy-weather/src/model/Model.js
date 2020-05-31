@@ -40,19 +40,22 @@ const Model = {
 			this.geolocation.latitude,
 			this.geolocation.longitude,
 		);
-		this.city = await this.geocodingAPI.loadGeoCodeReverse(
+		this.stateSetterAdapter.setCity(await this.geocodingAPI.loadGeoCodeReverse(
 			this.geolocation.latitude,
 			this.geolocation.longitude,
-		);
+		));
 
-		const weather = await this.weatherAPI.loadWeather(this.city);
+		const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
 		await this.stateSetterAdapter.setWeather(weather);
 
 		this.stateSetterAdapter.isDay(weather.current.is_day);
 
-		const background = await this.backgroundAPI.loadBgImage();
-		this.stateSetterAdapter.setBgImage(background);
-
+		try {
+			const background = await this.backgroundAPI.loadBgImage();
+			this.stateSetterAdapter.setBgImage(background);
+		} catch (err) {
+			this.stateSetterAdapter.setBgImage('/assets/default.jpg');
+		}
 		this.state.ready();
 	},
 
@@ -64,7 +67,7 @@ const Model = {
 	async changeLang(locale) {
 		this.stateSetterAdapter.setLang(locale);
 
-		const weather = await this.weatherAPI.loadWeather(this.city);
+		const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
 		await this.stateSetterAdapter.setWeather(weather);
 
 		this.stateSetterAdapter.setI18nText(
@@ -75,13 +78,13 @@ const Model = {
 	async changeTemp(tempScale) {
 		this.stateSetterAdapter.setScale(tempScale);
 
-		const weather = await this.weatherAPI.loadWeather(this.city);
+		const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
 		await this.stateSetterAdapter.setWeather(weather);
 	},
 
 	async searchCity(city) {
 		this.stateSetterAdapter.setSearch(city);
-		this.city = city;
+		this.stateSetterAdapter.setCity(city);
 
 		const geoRequest = await this.geocodingAPI.loadGeoCodeForward(city);
 
@@ -90,7 +93,7 @@ const Model = {
 			geoRequest.long,
 		);
 
-		const weather = await this.weatherAPI.loadWeather(this.city);
+		const weather = await this.weatherAPI.loadWeather(city);
 		await this.stateSetterAdapter.setWeather(weather);
 
 		this.reloadBg();

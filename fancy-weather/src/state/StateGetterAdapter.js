@@ -3,6 +3,10 @@ import state from './state';
 const stateGetterAdapter = {
 	state,
 
+	getCity() {
+		return this.state.getter('main.city');
+	},
+
 	getBackground() {
 		return this.state.getter('main.bgUrl');
 	},

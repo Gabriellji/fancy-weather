@@ -301,7 +301,27 @@
     .search {
         padding-left: 20px;
     }
-    }
+	}
+	
+	@media (max-width: 415px) {
+		.input {
+			max-width: 200px;
+		}
+		.btn-search {
+			display: inline-block;
+			margin-top: 8px;
+			margin-left: 8px;
+		}
+		.shake-lr {
+			width: 21px;
+		}
+		.btn-voice .shake-lr {
+			width: 15px;
+		}
+		.weather-data__date-time {
+			font-size: 4.2rem;
+		}
+		}
 
 
 

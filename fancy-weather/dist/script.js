@@ -11629,6 +11629,10 @@ __webpack_require__.r(__webpack_exports__);
 
  // document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure';
 
+var overlay = document.querySelector('.overlay');
+window.addEventListener('load', function () {
+  overlay.style.display = 'none';
+});
 new _view_View__WEBPACK_IMPORTED_MODULE_1__["default"]();
 _model_Model__WEBPACK_IMPORTED_MODULE_0__["default"].init();
 
@@ -11714,9 +11718,9 @@ var backgroundAPI = {
               search = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : false;
 
               if (_this.state.getter('control.is_day')) {
-                query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=Day,Asia,Cloud,Outdoor&per_page=1&client_id=").concat(_this.accesKey);
+                query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=cloud,islands,outdoor,asia&per_page=1&client_id=").concat(_this.accesKey);
               } else {
-                query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=Night,Cloud,Neon&per_page=1&client_id=").concat(_this.accesKey);
+                query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=night,cloud,nature&per_page=1&client_id=").concat(_this.accesKey);
               }
 
               if (!search) {
@@ -11730,14 +11734,23 @@ var backgroundAPI = {
 
             case 5:
               response = _context.sent;
-              _context.next = 8;
-              return response.json();
+
+              if (response.ok) {
+                _context.next = 8;
+                break;
+              }
+
+              throw new Error(response.status);
 
             case 8:
+              _context.next = 10;
+              return response.json();
+
+            case 10:
               data = _context.sent;
               return _context.abrupt("return", data.urls.regular);
 
-            case 10:
+            case 12:
             case "end":
               return _context.stop();
           }
@@ -12049,38 +12062,53 @@ var Model = {
             case 12:
               _this.stateSetterAdapter.setCoordinates(_this.geolocation.latitude, _this.geolocation.longitude);
 
-              _context.next = 15;
+              _context.t1 = _this.stateSetterAdapter;
+              _context.next = 16;
               return _this.geocodingAPI.loadGeoCodeReverse(_this.geolocation.latitude, _this.geolocation.longitude);
 
-            case 15:
-              _this.city = _context.sent;
-              _context.next = 18;
-              return _this.weatherAPI.loadWeather(_this.city);
+            case 16:
+              _context.t2 = _context.sent;
 
-            case 18:
+              _context.t1.setCity.call(_context.t1, _context.t2);
+
+              _context.next = 20;
+              return _this.weatherAPI.loadWeather(_this.stateGetterAdapter.getCity());
+
+            case 20:
               weather = _context.sent;
-              _context.next = 21;
+              _context.next = 23;
               return _this.stateSetterAdapter.setWeather(weather);
 
-            case 21:
+            case 23:
               _this.stateSetterAdapter.isDay(weather.current.is_day);
 
-              _context.next = 24;
+              _context.prev = 24;
+              _context.next = 27;
               return _this.backgroundAPI.loadBgImage();
 
-            case 24:
+            case 27:
               background = _context.sent;
 
               _this.stateSetterAdapter.setBgImage(background);
 
+              _context.next = 34;
+              break;
+
+            case 31:
+              _context.prev = 31;
+              _context.t3 = _context["catch"](24);
+
+              _this.stateSetterAdapter.setBgImage('/assets/default.jpg');
+
+            case 34:
               _this.state.ready();
 
-            case 27:
+            case 35:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[2, 9]]);
+      }, _callee, null, [[2, 9], [24, 31]]);
     }))();
   },
   reloadBg: function reloadBg() {
@@ -12120,7 +12148,7 @@ var Model = {
               _this3.stateSetterAdapter.setLang(locale);
 
               _context3.next = 3;
-              return _this3.weatherAPI.loadWeather(_this3.city);
+              return _this3.weatherAPI.loadWeather(_this3.stateGetterAdapter.getCity());
 
             case 3:
               weather = _context3.sent;
@@ -12138,43 +12166,71 @@ var Model = {
       }, _callee3);
     }))();
   },
-  searchCity: function searchCity(city) {
+  changeTemp: function changeTemp(tempScale) {
     var _this4 = this;
 
     return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-      var geoRequest, weather;
+      var weather;
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              _this4.stateSetterAdapter.setSearch(city);
+              _this4.stateSetterAdapter.setScale(tempScale);
 
-              _this4.city = city;
-              _context4.next = 4;
-              return _this4.geocodingAPI.loadGeoCodeForward(city);
+              _context4.next = 3;
+              return _this4.weatherAPI.loadWeather(_this4.stateGetterAdapter.getCity());
 
-            case 4:
-              geoRequest = _context4.sent;
-
-              _this4.stateSetterAdapter.setCoordinates(geoRequest.lat, geoRequest["long"]);
-
-              _context4.next = 8;
-              return _this4.weatherAPI.loadWeather(_this4.city);
-
-            case 8:
+            case 3:
               weather = _context4.sent;
-              _context4.next = 11;
+              _context4.next = 6;
               return _this4.stateSetterAdapter.setWeather(weather);
 
-            case 11:
-              _this4.reloadBg();
-
-            case 12:
+            case 6:
             case "end":
               return _context4.stop();
           }
         }
       }, _callee4);
+    }))();
+  },
+  searchCity: function searchCity(city) {
+    var _this5 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      var geoRequest, weather;
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _this5.stateSetterAdapter.setSearch(city);
+
+              _this5.stateSetterAdapter.setCity(city);
+
+              _context5.next = 4;
+              return _this5.geocodingAPI.loadGeoCodeForward(city);
+
+            case 4:
+              geoRequest = _context5.sent;
+
+              _this5.stateSetterAdapter.setCoordinates(geoRequest.lat, geoRequest["long"]);
+
+              _context5.next = 8;
+              return _this5.weatherAPI.loadWeather(city);
+
+            case 8:
+              weather = _context5.sent;
+              _context5.next = 11;
+              return _this5.stateSetterAdapter.setWeather(weather);
+
+            case 11:
+              _this5.reloadBg();
+
+            case 12:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
     }))();
   }
 };
@@ -12378,6 +12434,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var stateGetterAdapter = {
   state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
+  getCity: function getCity() {
+    return this.state.getter('main.city');
+  },
   getBackground: function getBackground() {
     return this.state.getter('main.bgUrl');
   },
@@ -12475,6 +12534,17 @@ var stateHelper = {
     // const splite = dateArr.split(' ');
     // const date = splite.splice(0, 3).join(' ');
     // return `${date} ${dateString.toLocaleTimeString(timezone)}`;
+    // const currentLang = this.state.getter('control.lang');
+    // if (currentLang !== 'en') {
+    // 	const dateArr = dateString.toDateString();
+    // 	const splite = dateArr.split(' ');
+    // 	const date = splite.splice(0, 3).reverse().join(' ');
+    // 	return `${date} ${dateString.toLocaleTimeString()}`;
+    // }
+    // const dateArr = dateString.toDateString();
+    // const splite = dateArr.split(' ');
+    // const date = splite.splice(0, 3).join(' ');
+    // return `${date} ${dateString.toLocaleTimeString('en-US')}`;
     var currentLang = this.state.getter('control.lang');
 
     if (currentLang !== 'en') {
@@ -12484,13 +12554,13 @@ var stateHelper = {
 
       var _date = _splite.splice(0, 3).reverse().join(' ');
 
-      return "".concat(_date, " ").concat(dateString.toLocaleTimeString());
+      return "".concat(_date);
     }
 
     var dateArr = dateString.toDateString();
     var splite = dateArr.split(' ');
     var date = splite.splice(0, 3).join(' ');
-    return "".concat(date, " ").concat(dateString.toLocaleTimeString('en-US'));
+    return "".concat(date);
   },
   currentWeatherFormat: function currentWeatherFormat(data) {
     var _this = this;
@@ -12531,6 +12601,7 @@ var stateHelper = {
               return _context.abrupt("return", {
                 place: place,
                 dataTime: dataTime,
+                tz_id: data.location.tz_id,
                 temp: _this.state.getter('control.tempScale') === 'C' ? Math.round(data.current.temp_c) : Math.round(data.current.temp_f),
                 condition: condition,
                 iconUrl: data.current.is_day ? _weather_icons_weather_icons__WEBPACK_IMPORTED_MODULE_2__["default"][data.current.condition.code].day : _weather_icons_weather_icons__WEBPACK_IMPORTED_MODULE_2__["default"][data.current.condition.code].night,
@@ -12638,6 +12709,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var stateSetterAdapter = {
   state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
   helper: _StateHelper__WEBPACK_IMPORTED_MODULE_1__["default"],
+  setCity: function setCity(city) {
+    this.state.setter('main.city', city);
+  },
   setOptions: function setOptions(locale, tempScale) {
     this.state.setter('control.lang', locale);
     this.state.setter('control.tempScale', tempScale);
@@ -12778,7 +12852,8 @@ var state = {
       map: {}
     },
     main: {
-      bgUrl: ''
+      bgUrl: '',
+      city: ''
     },
     control: {
       langOptions: [],
@@ -13015,7 +13090,7 @@ var Buttons = /*#__PURE__*/function (_Widget) {
       var button = document.createElement('button');
       button.classList.add('c-smileyButton');
       button.textContent = '&nbsp';
-      button.textContent = 'Click me'; // &nbsp;
+      button.textContent = 'Click'; // &nbsp;
 
       var smileFace = document.createElement('span');
       smileFace.classList.add('c-smileyButton__face');
@@ -13064,6 +13139,8 @@ var Buttons = /*#__PURE__*/function (_Widget) {
   }, {
     key: "createTemperatureButtons",
     value: function createTemperatureButtons() {
+      var _this4 = this;
+
       var temperatureBox = document.createElement('div');
       temperatureBox.classList.add('temperature__box');
       var spanInnerText = ['F', 'C'];
@@ -13081,9 +13158,13 @@ var Buttons = /*#__PURE__*/function (_Widget) {
 
         a.classList.add('my-super-cool-btn-temp');
         a.setAttribute('href', '#');
+        span.setAttribute('data-temp', spanInnerText[i]);
         span.classList.add('btn-temp');
         span.innerHTML = spanInnerText[i];
         a.appendChild(span);
+        span.addEventListener('click', function (e) {
+          _this4.model.changeTemp(e.target.getAttribute('data-temp'));
+        });
         temperatureBox.appendChild(a);
       }
 
@@ -13143,6 +13224,7 @@ var CurrentWeather = /*#__PURE__*/function (_Widget) {
     _classCallCheck(this, CurrentWeather);
 
     _this = _super.call(this);
+    _this.data = new Date();
     _this.weatherPanel = document.querySelector('.weather-main');
     _this.weatherWrapper = document.querySelector('.main-wrapper');
     _this.weatherData = document.querySelector('.weather-data');
@@ -13160,14 +13242,47 @@ var CurrentWeather = /*#__PURE__*/function (_Widget) {
       }
     }
   }, {
+    key: "initDataTime",
+    value: function initDataTime(weather) {
+      var _this2 = this;
+
+      var dateTime = document.createElement('p');
+      dateTime.classList.add('weather-data__date-time'); // const time = this.date.toLocaleTimeString('en', {
+      // 	timeZone: weather.tz_id,
+      // });
+      // dateTime.textContent = `${weather.dataTime} ${time}`;
+
+      setInterval(function () {
+        _this2.date = new Date(); // if (this.state.getter('control.lang') === 'en') {
+        // 	console.log('work');
+        // 	const time = this.date.toLocaleTimeString('en', {
+        // 		timeZone: weather.tz_id,
+        // 	});
+        // 	// dateTime.textContent = `${weather.dataTime} ${time}`;
+        // }
+
+        var time = _this2.state.getter('control.lang') === 'en' ? _this2.date.toLocaleTimeString('en', {
+          timeZone: weather.tz_id
+        }) : _this2.date.toLocaleTimeString('ru', {
+          timeZone: weather.tz_id
+        });
+        dateTime.textContent = "".concat(weather.dataTime, " ").concat(time);
+      }, 1000);
+      return dateTime;
+    }
+  }, {
     key: "weatherMain",
     value: function weatherMain(weather) {
       var location = document.createElement('p');
       location.classList.add('weather-data__location');
-      location.textContent = weather.place;
-      var dateTime = document.createElement('p');
-      dateTime.classList.add('weather-data__date-time');
-      dateTime.textContent = weather.dataTime;
+      location.textContent = weather.place; // const dateTime = document.createElement('p');
+      // dateTime.classList.add('weather-data__date-time');
+      // const time = this.date.toLocaleTimeString('en', {
+      // 	timeZone: weather.tz_id,
+      // });
+      // dateTime.textContent = `${weather.dataTime} ${time}`;
+
+      var dateTime = this.initDataTime(weather);
       var temperatureToday = document.createElement('p');
       temperatureToday.classList.add('weather-data__temperature-today');
       temperatureToday.textContent = weather.temp;
@@ -13411,7 +13526,7 @@ var Map = /*#__PURE__*/function (_Widget) {
     mapbox_gl_dist_mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default.a.accessToken = _config_mapAPIConfig__WEBPACK_IMPORTED_MODULE_2__["default"].accesKey;
     _this.mapBoxgl = new mapbox_gl_dist_mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default.a.Map({
       container: 'map',
-      zoom: 10,
+      zoom: 8,
       style: 'mapbox://styles/mapbox/streets-v11'
     });
     return _this;
@@ -13507,8 +13622,14 @@ var Search = /*#__PURE__*/function (_Widget) {
     _classCallCheck(this, Search);
 
     _this = _super.call(this);
+    _this.searchContainer = document.querySelector('.search');
     _this.labelSpan = document.querySelector('.input__label-content');
     _this.input = document.querySelector('#input-7');
+    _this.searchButton = document.querySelector('.btn-search');
+
+    _this.searchButton.addEventListener('click', function () {
+      _this.model.searchCity(_this.input.value);
+    });
 
     _this.input.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') {
@@ -13619,7 +13740,10 @@ var Ticker = /*#__PURE__*/function (_Widget) {
         });
         newItem = document.createElement('p');
         newItem.classList.add('ticker__item');
-        newItem.textContent = '||';
+        newItem.textContent = '||'; // const img = document.createElement('img');
+        // img.setAttribute('src', 'assets/sun (1).svg');
+        // newItem.appendChild(img);
+
         tickerBox.appendChild(newItem);
       });
       this.tickerWrapper.appendChild(tickerBox);

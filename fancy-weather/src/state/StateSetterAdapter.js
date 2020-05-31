@@ -6,6 +6,10 @@ const stateSetterAdapter = {
 	state,
 	helper,
 
+	setCity(city) {
+		this.state.setter('main.city', city);
+	},
+
 	setOptions(locale, tempScale) {
 		this.state.setter('control.lang', locale);
 		this.state.setter('control.tempScale', tempScale);

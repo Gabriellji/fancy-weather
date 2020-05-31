@@ -31,17 +31,28 @@ const stateHelper = {
 		// const splite = dateArr.split(' ');
 		// const date = splite.splice(0, 3).join(' ');
 		// return `${date} ${dateString.toLocaleTimeString(timezone)}`;
+		// const currentLang = this.state.getter('control.lang');
+		// if (currentLang !== 'en') {
+		// 	const dateArr = dateString.toDateString();
+		// 	const splite = dateArr.split(' ');
+		// 	const date = splite.splice(0, 3).reverse().join(' ');
+		// 	return `${date} ${dateString.toLocaleTimeString()}`;
+		// }
+		// const dateArr = dateString.toDateString();
+		// const splite = dateArr.split(' ');
+		// const date = splite.splice(0, 3).join(' ');
+		// return `${date} ${dateString.toLocaleTimeString('en-US')}`;
 		const currentLang = this.state.getter('control.lang');
 		if (currentLang !== 'en') {
 			const dateArr = dateString.toDateString();
 			const splite = dateArr.split(' ');
 			const date = splite.splice(0, 3).reverse().join(' ');
-			return `${date} ${dateString.toLocaleTimeString()}`;
+			return `${date}`;
 		}
 		const dateArr = dateString.toDateString();
 		const splite = dateArr.split(' ');
 		const date = splite.splice(0, 3).join(' ');
-		return `${date} ${dateString.toLocaleTimeString('en-US')}`;
+		return `${date}`;
 	},
 
 	async currentWeatherFormat(data) {
@@ -58,6 +69,7 @@ const stateHelper = {
 		return {
 			place,
 			dataTime,
+			tz_id: data.location.tz_id,
 			temp: this.state.getter('control.tempScale') === 'C'
 				? Math.round(data.current.temp_c)
 				: Math.round(data.current.temp_f),

@@ -4,6 +4,8 @@ class CurrentWeather extends Widget {
 	constructor() {
 		super();
 
+		this.data = new Date();
+
 		this.weatherPanel = document.querySelector('.weather-main');
 		this.weatherWrapper = document.querySelector('.main-wrapper');
 		this.weatherData = document.querySelector('.weather-data');
@@ -18,14 +20,47 @@ class CurrentWeather extends Widget {
 		}
 	}
 
+	initDataTime(weather) {
+		const dateTime = document.createElement('p');
+		dateTime.classList.add('weather-data__date-time');
+		// const time = this.date.toLocaleTimeString('en', {
+		// 	timeZone: weather.tz_id,
+		// });
+		// dateTime.textContent = `${weather.dataTime} ${time}`;
+
+		setInterval(() => {
+			this.date = new Date();
+			// if (this.state.getter('control.lang') === 'en') {
+			// 	console.log('work');
+			// 	const time = this.date.toLocaleTimeString('en', {
+			// 		timeZone: weather.tz_id,
+			// 	});
+			// 	// dateTime.textContent = `${weather.dataTime} ${time}`;
+			// }
+			const time = this.state.getter('control.lang') === 'en'
+				? this.date.toLocaleTimeString('en', { timeZone: weather.tz_id })
+				: this.date.toLocaleTimeString('ru', {
+					timeZone: weather.tz_id,
+				});
+			dateTime.textContent = `${weather.dataTime} ${time}`;
+		}, 1000);
+		return dateTime;
+	}
+
+
 	weatherMain(weather) {
 		const location = document.createElement('p');
 		location.classList.add('weather-data__location');
 		location.textContent = weather.place;
 
-		const dateTime = document.createElement('p');
-		dateTime.classList.add('weather-data__date-time');
-		dateTime.textContent = weather.dataTime;
+		// const dateTime = document.createElement('p');
+		// dateTime.classList.add('weather-data__date-time');
+		// const time = this.date.toLocaleTimeString('en', {
+		// 	timeZone: weather.tz_id,
+		// });
+		// dateTime.textContent = `${weather.dataTime} ${time}`;
+
+		const dateTime = this.initDataTime(weather);
 
 		const temperatureToday = document.createElement('p');
 		temperatureToday.classList.add('weather-data__temperature-today');
