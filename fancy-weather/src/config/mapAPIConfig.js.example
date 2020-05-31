@@ -1,0 +1,6 @@
+const mapApiConfig = {
+	mapUrl: 'https://api.mapbox.com',
+	accesKey: '',
+};
+
+export default mapApiConfig;

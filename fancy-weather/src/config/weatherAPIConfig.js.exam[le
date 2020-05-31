@@ -1,0 +1,6 @@
+const weatherApiConfig = {
+	url: 'https://api.weatherapi.com/v1/forecast.json',
+	accesKey: '',
+};
+
+export default weatherApiConfig;

@@ -11372,7 +11372,8 @@ var lang = {
     description: ''
   },
   control: {
-    searchPlaceholder: 'Знайсці горад ці індэкс',
+    searchPlaceholder: 'Знайсці горад',
+    example: 'Напрыклад: горад, краіна',
     searchBtnTxt: 'Пошук'
   },
   weatherToday: {
@@ -11441,7 +11442,8 @@ var lang = {
     description: ''
   },
   control: {
-    searchPlaceholder: 'Search city or ZIP',
+    searchPlaceholder: 'Search city',
+    example: 'Example: city, country',
     searchBtnTxt: 'Search'
   },
   weatherToday: {
@@ -11510,7 +11512,8 @@ var lang = {
     description: ''
   },
   control: {
-    searchPlaceholder: 'Найти город или индекс',
+    searchPlaceholder: 'Найти город',
+    example: 'Пример: город, страна',
     searchBtnTxt: 'Поиск'
   },
   weatherToday: {
@@ -11628,11 +11631,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _view_View__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./view/View */ "./src/view/View.js");
 
  // document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure';
+// const overlay = document.querySelector('.overlay');
+// window.addEventListener('load', () => {
+// 	overlay.style.display = 'none';
+// });
 
-var overlay = document.querySelector('.overlay');
-window.addEventListener('load', function () {
-  overlay.style.display = 'none';
-});
 new _view_View__WEBPACK_IMPORTED_MODULE_1__["default"]();
 _model_Model__WEBPACK_IMPORTED_MODULE_0__["default"].init();
 
@@ -12526,25 +12529,6 @@ var stateHelper = {
     return months["default"][monthsNumber];
   },
   getDateTime: function getDateTime(dateString) {
-    // const dateArr = dateString.split(' ');
-    // const time = dateArr[1];
-    // const finalDate = new Date(dateString);
-    // return `${finalDate.toDateString()} ${time}`;
-    // const dateArr = dateString.toDateString(timezone);
-    // const splite = dateArr.split(' ');
-    // const date = splite.splice(0, 3).join(' ');
-    // return `${date} ${dateString.toLocaleTimeString(timezone)}`;
-    // const currentLang = this.state.getter('control.lang');
-    // if (currentLang !== 'en') {
-    // 	const dateArr = dateString.toDateString();
-    // 	const splite = dateArr.split(' ');
-    // 	const date = splite.splice(0, 3).reverse().join(' ');
-    // 	return `${date} ${dateString.toLocaleTimeString()}`;
-    // }
-    // const dateArr = dateString.toDateString();
-    // const splite = dateArr.split(' ');
-    // const date = splite.splice(0, 3).join(' ');
-    // return `${date} ${dateString.toLocaleTimeString('en-US')}`;
     var currentLang = this.state.getter('control.lang');
 
     if (currentLang !== 'en') {
@@ -13002,6 +12986,8 @@ var Background = /*#__PURE__*/function (_Widget) {
     value: function draw(path) {
       if (this.isStateReady()) {
         var img = this.stateGetterAdapter.getBackground();
+        var overlay = document.querySelector('.overlay');
+        overlay.style.display = 'none';
         this.body.style.background = "\n            linear-gradient(rgba(8, 15, 26, 0.39) 0%, rgba(17, 17, 46, 0.46) 100%) center center / cover fixed,\n             url(".concat(img, ")center center / cover fixed");
       }
     }
@@ -13063,7 +13049,6 @@ var Buttons = /*#__PURE__*/function (_Widget) {
     _this = _super.call(this);
     _this.state = _state_state__WEBPACK_IMPORTED_MODULE_1__["default"];
     _this.buttonsPanel = document.querySelector('.buttons');
-    _this.oneMoreButtonBox = document.querySelector('.temperature__box');
     return _this;
   }
 
@@ -13079,6 +13064,7 @@ var Buttons = /*#__PURE__*/function (_Widget) {
       this.createClickMeButton();
       this.createLanguageButtons();
       this.createTemperatureButtons();
+      this.createVolumeButtons();
     }
   }, {
     key: "createClickMeButton",
@@ -13170,6 +13156,35 @@ var Buttons = /*#__PURE__*/function (_Widget) {
 
       this.buttonsPanel.appendChild(temperatureBox);
     }
+  }, {
+    key: "createVolumeButtons",
+    value: function createVolumeButtons() {
+      var _this5 = this;
+
+      var volumeBox = document.createElement('div');
+      volumeBox.classList.add('volume__box');
+      var volumeStart = document.createElement('span');
+      var volumeStop = document.createElement('span');
+      volumeStart.classList.add('btn-volume-start', 'shake-top');
+      volumeStop.classList.add('btn-volume-stop', 'shake-top');
+      var imgStart = document.createElement('img');
+      var imgStop = document.createElement('img');
+      imgStart.classList.add('img-voice');
+      imgStop.classList.add('img-voice');
+      imgStart.setAttribute('src', 'assets/volume-up-solid.svg');
+      imgStop.setAttribute('src', 'assets/volume-off-solid.svg');
+      volumeStart.appendChild(imgStart);
+      volumeStop.appendChild(imgStop);
+      volumeBox.appendChild(volumeStart);
+      volumeBox.appendChild(volumeStop);
+      this.buttonsPanel.appendChild(volumeBox);
+      volumeStart.addEventListener('click', function () {
+        _this5.model.startVoiceWeather();
+      });
+      volumeStop.addEventListener('click', function () {
+        _this5.model.stopVoiceWeather();
+      });
+    }
   }]);
 
   return Buttons;
@@ -13247,20 +13262,9 @@ var CurrentWeather = /*#__PURE__*/function (_Widget) {
       var _this2 = this;
 
       var dateTime = document.createElement('p');
-      dateTime.classList.add('weather-data__date-time'); // const time = this.date.toLocaleTimeString('en', {
-      // 	timeZone: weather.tz_id,
-      // });
-      // dateTime.textContent = `${weather.dataTime} ${time}`;
-
+      dateTime.classList.add('weather-data__date-time');
       setInterval(function () {
-        _this2.date = new Date(); // if (this.state.getter('control.lang') === 'en') {
-        // 	console.log('work');
-        // 	const time = this.date.toLocaleTimeString('en', {
-        // 		timeZone: weather.tz_id,
-        // 	});
-        // 	// dateTime.textContent = `${weather.dataTime} ${time}`;
-        // }
-
+        _this2.date = new Date();
         var time = _this2.state.getter('control.lang') === 'en' ? _this2.date.toLocaleTimeString('en', {
           timeZone: weather.tz_id
         }) : _this2.date.toLocaleTimeString('ru', {
@@ -13275,13 +13279,7 @@ var CurrentWeather = /*#__PURE__*/function (_Widget) {
     value: function weatherMain(weather) {
       var location = document.createElement('p');
       location.classList.add('weather-data__location');
-      location.textContent = weather.place; // const dateTime = document.createElement('p');
-      // dateTime.classList.add('weather-data__date-time');
-      // const time = this.date.toLocaleTimeString('en', {
-      // 	timeZone: weather.tz_id,
-      // });
-      // dateTime.textContent = `${weather.dataTime} ${time}`;
-
+      location.textContent = weather.place;
       var dateTime = this.initDataTime(weather);
       var temperatureToday = document.createElement('p');
       temperatureToday.classList.add('weather-data__temperature-today');
@@ -13296,8 +13294,7 @@ var CurrentWeather = /*#__PURE__*/function (_Widget) {
       icon.setAttribute('alt', 'weather');
       this.weatherData.appendChild(location);
       this.weatherData.appendChild(dateTime);
-      this.weatherData.appendChild(temperatureToday); // this.weatherData.appendChild(cels);
-
+      this.weatherData.appendChild(temperatureToday);
       this.weatherData.appendChild(icon);
     }
   }, {
@@ -13310,13 +13307,13 @@ var CurrentWeather = /*#__PURE__*/function (_Widget) {
       condition.textContent = weather.condition;
       var feelsLike = document.createElement('p');
       feelsLike.classList.add('feels-like');
-      feelsLike.textContent = "".concat(weather.i18n.feelsLike, ": ").concat(weather.feelsLike);
+      feelsLike.textContent = "".concat(weather.i18n.feelsLike, " : ").concat(weather.feelsLike);
       var wind = document.createElement('p');
       wind.classList.add('wind');
-      wind.textContent = "".concat(weather.i18n.wind, ": ").concat(weather.wind);
+      wind.textContent = "".concat(weather.i18n.wind, " : ").concat(weather.wind);
       var humidity = document.createElement('p');
       humidity.classList.add('humidity');
-      humidity.textContent = "".concat(weather.i18n.humidity, ": ").concat(weather.humidity);
+      humidity.textContent = "".concat(weather.i18n.humidity, " : ").concat(weather.humidity);
       weatherCondition.appendChild(condition);
       weatherCondition.appendChild(feelsLike);
       weatherCondition.appendChild(wind);
@@ -13397,7 +13394,6 @@ var ForecastWeather = /*#__PURE__*/function (_Widget) {
       var div;
       var days;
       var temperature;
-      var cels;
       var img;
 
       for (var i = 0; i < 3; i += 1) {
@@ -13424,48 +13420,7 @@ var ForecastWeather = /*#__PURE__*/function (_Widget) {
   return ForecastWeather;
 }(_Widget__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (ForecastWeather); // const forecastBox = document.createElement('div');
-// forecastBox.classList.add('forecast', 'first');
-// const weekDay = document.createElement('p');
-// weekDay.classList.add('forecast__day');
-// const temperature = document.createElement('p');
-// temperature.classList.add('forecast__temperature');
-// const forecastIcon = document.createElement('img');
-// forecastIcon.classList.add('forecast__icon');
-// forecastIcon.setAttribute('src');
-// forecastIcon.setAttribute('alt');
-// forecastBox.appendChild(weekDay);
-// forecastBox.appendChild(temperature);
-// forecastBox.appendChild(forecastIcon);
-// const forecastBoxSecond = document.createElement('div');
-// forecastBoxSecond.classList.add('forecast', 'second');
-// const weekDaySecond = document.createElement('p');
-// weekDaySecond.classList.add('forecast__day');
-// const temperatureSecond = document.createElement('p');
-// temperatureSecond.classList.add('forecast__temperature');
-// const forecastIconSecond = document.createElement('img');
-// forecastIconSecond.classList.add('forecast__icon');
-// forecastIconSecond.setAttribute('src');
-// forecastIconSecond.setAttribute('alt');
-// forecastBoxSecond.appendChild(weekDaySecond);
-// forecastBoxSecond.appendChild(temperatureSecond);
-// forecastBoxSecond.appendChild(forecastIconSecond);
-// const forecastBoxThird = document.createElement('div');
-// forecastBoxThird.classList.add('forecast', 'third');
-// const weekDayThird = document.createElement('p');
-// weekDayThird.classList.add('forecast__day');
-// const temperatureThird = document.createElement('p');
-// temperatureThird.classList.add('forecast__temperature');
-// const forecastIconThird = document.createElement('img');
-// forecastIconThird.classList.add('forecast__icon');
-// forecastIconThird.setAttribute('src');
-// forecastIconThird.setAttribute('alt');
-// forecastBoxThird.appendChild(weekDayThird);
-// forecastBoxThird.appendChild(temperatureThird);
-// forecastBoxThird.appendChild(forecastIconThird);
-// this.weatherData.appendChild(forecastBox);
-// this.weatherData.appendChild(forecastBoxSecond);
-// this.weatherData.appendChild(forecastBoxThird);
+/* harmony default export */ __webpack_exports__["default"] = (ForecastWeather);
 
 /***/ }),
 
@@ -13543,6 +13498,22 @@ var Map = /*#__PURE__*/function (_Widget) {
       }
     }
   }, {
+    key: "truncate",
+    value: function truncate(n) {
+      return n > 0 ? Math.floor(n) : Math.ceil(n);
+    }
+  }, {
+    key: "getDMS",
+    value: function getDMS(dd, longOrLat) {
+      this.hemisphere = /^[WE]|(?:lon)/i.test(longOrLat) ? dd < 0 ? 'W' : 'E' : dd < 0 ? 'S' : 'N';
+      var absDD = Math.abs(dd);
+      var degrees = this.truncate(absDD);
+      var minutes = this.truncate((absDD - degrees) * 60);
+      var seconds = ((absDD - degrees - minutes / 60) * Math.pow(60, 2)).toFixed(2);
+      var dmsArray = [degrees, minutes, seconds, this.hemisphere];
+      return "".concat(dmsArray[0], "\xB0").concat(dmsArray[1], "'").concat(dmsArray[2], "\" ").concat(dmsArray[3]);
+    }
+  }, {
     key: "createMapBox",
     value: function createMapBox() {
       this.mapBox = document.createElement('div');
@@ -13561,10 +13532,14 @@ var Map = /*#__PURE__*/function (_Widget) {
     value: function createMap(coords) {
       var latitude = document.createElement('p');
       latitude.classList.add('latitude');
-      latitude.textContent = "".concat(coords.i18n.latitude, ": ").concat(coords.lat);
+      var lat = this.getDMS(coords.lat, 'lat');
+      latitude.textContent = "".concat(coords.i18n.latitude, " : ").concat(lat);
       var longitude = document.createElement('p');
       longitude.classList.add('longitude');
-      longitude.textContent = "".concat(coords.i18n.longitude, ": ").concat(coords["long"]);
+
+      var _long = this.getDMS(coords["long"], 'long');
+
+      longitude.textContent = "".concat(coords.i18n.longitude, " : ").concat(_long);
       this.coordinates.appendChild(latitude);
       this.coordinates.appendChild(longitude);
     }
@@ -13651,7 +13626,7 @@ var Search = /*#__PURE__*/function (_Widget) {
   }, {
     key: "createSearchPanel",
     value: function createSearchPanel(text) {
-      this.labelSpan.setAttribute('data-content', text.i18n.searchPlaceholder);
+      this.labelSpan.setAttribute('data-content', text.i18n.example);
       this.labelSpan.textContent = text.i18n.searchPlaceholder;
     }
   }]);
@@ -13735,15 +13710,15 @@ var Ticker = /*#__PURE__*/function (_Widget) {
         descrip.forEach(function (desc) {
           var tickerItem = document.createElement('p');
           tickerItem.classList.add('ticker__item');
-          tickerItem.textContent = "".concat(weather.i18n[desc], ": ").concat(day[desc]);
+          tickerItem.textContent = "".concat(weather.i18n[desc], " : ").concat(day[desc]);
           tickerBox.appendChild(tickerItem);
         });
         newItem = document.createElement('p');
         newItem.classList.add('ticker__item');
-        newItem.textContent = '||'; // const img = document.createElement('img');
-        // img.setAttribute('src', 'assets/sun (1).svg');
-        // newItem.appendChild(img);
-
+        var img = document.createElement('img');
+        img.setAttribute('src', 'https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-2.svg');
+        img.style.width = '30px';
+        newItem.appendChild(img);
         tickerBox.appendChild(newItem);
       });
       this.tickerWrapper.appendChild(tickerBox);

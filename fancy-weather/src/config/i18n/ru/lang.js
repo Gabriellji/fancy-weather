@@ -4,7 +4,8 @@ const lang = {
 		description: '',
 	},
 	control: {
-		searchPlaceholder: 'Найти город или индекс',
+		searchPlaceholder: 'Найти город',
+		example: 'Пример: город, страна',
 		searchBtnTxt: 'Поиск',
 	},
 	weatherToday: {

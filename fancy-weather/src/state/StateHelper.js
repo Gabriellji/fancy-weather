@@ -23,25 +23,6 @@ const stateHelper = {
 	},
 
 	getDateTime(dateString) {
-		// const dateArr = dateString.split(' ');
-		// const time = dateArr[1];
-		// const finalDate = new Date(dateString);
-		// return `${finalDate.toDateString()} ${time}`;
-		// const dateArr = dateString.toDateString(timezone);
-		// const splite = dateArr.split(' ');
-		// const date = splite.splice(0, 3).join(' ');
-		// return `${date} ${dateString.toLocaleTimeString(timezone)}`;
-		// const currentLang = this.state.getter('control.lang');
-		// if (currentLang !== 'en') {
-		// 	const dateArr = dateString.toDateString();
-		// 	const splite = dateArr.split(' ');
-		// 	const date = splite.splice(0, 3).reverse().join(' ');
-		// 	return `${date} ${dateString.toLocaleTimeString()}`;
-		// }
-		// const dateArr = dateString.toDateString();
-		// const splite = dateArr.split(' ');
-		// const date = splite.splice(0, 3).join(' ');
-		// return `${date} ${dateString.toLocaleTimeString('en-US')}`;
 		const currentLang = this.state.getter('control.lang');
 		if (currentLang !== 'en') {
 			const dateArr = dateString.toDateString();

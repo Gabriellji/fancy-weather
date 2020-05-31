@@ -23,20 +23,9 @@ class CurrentWeather extends Widget {
 	initDataTime(weather) {
 		const dateTime = document.createElement('p');
 		dateTime.classList.add('weather-data__date-time');
-		// const time = this.date.toLocaleTimeString('en', {
-		// 	timeZone: weather.tz_id,
-		// });
-		// dateTime.textContent = `${weather.dataTime} ${time}`;
 
 		setInterval(() => {
 			this.date = new Date();
-			// if (this.state.getter('control.lang') === 'en') {
-			// 	console.log('work');
-			// 	const time = this.date.toLocaleTimeString('en', {
-			// 		timeZone: weather.tz_id,
-			// 	});
-			// 	// dateTime.textContent = `${weather.dataTime} ${time}`;
-			// }
 			const time = this.state.getter('control.lang') === 'en'
 				? this.date.toLocaleTimeString('en', { timeZone: weather.tz_id })
 				: this.date.toLocaleTimeString('ru', {
@@ -52,13 +41,6 @@ class CurrentWeather extends Widget {
 		const location = document.createElement('p');
 		location.classList.add('weather-data__location');
 		location.textContent = weather.place;
-
-		// const dateTime = document.createElement('p');
-		// dateTime.classList.add('weather-data__date-time');
-		// const time = this.date.toLocaleTimeString('en', {
-		// 	timeZone: weather.tz_id,
-		// });
-		// dateTime.textContent = `${weather.dataTime} ${time}`;
 
 		const dateTime = this.initDataTime(weather);
 
@@ -80,7 +62,6 @@ class CurrentWeather extends Widget {
 		this.weatherData.appendChild(location);
 		this.weatherData.appendChild(dateTime);
 		this.weatherData.appendChild(temperatureToday);
-		// this.weatherData.appendChild(cels);
 		this.weatherData.appendChild(icon);
 	}
 
@@ -94,15 +75,15 @@ class CurrentWeather extends Widget {
 
 		const feelsLike = document.createElement('p');
 		feelsLike.classList.add('feels-like');
-		feelsLike.textContent = `${weather.i18n.feelsLike}: ${weather.feelsLike}`;
+		feelsLike.textContent = `${weather.i18n.feelsLike} : ${weather.feelsLike}`;
 
 		const wind = document.createElement('p');
 		wind.classList.add('wind');
-		wind.textContent = `${weather.i18n.wind}: ${weather.wind}`;
+		wind.textContent = `${weather.i18n.wind} : ${weather.wind}`;
 
 		const humidity = document.createElement('p');
 		humidity.classList.add('humidity');
-		humidity.textContent = `${weather.i18n.humidity}: ${weather.humidity}`;
+		humidity.textContent = `${weather.i18n.humidity} : ${weather.humidity}`;
 
 		weatherCondition.appendChild(condition);
 		weatherCondition.appendChild(feelsLike);

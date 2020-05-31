@@ -29,16 +29,16 @@ class Ticker extends Widget {
 			descrip.forEach((desc) => {
 				const tickerItem = document.createElement('p');
 				tickerItem.classList.add('ticker__item');
-				tickerItem.textContent = `${weather.i18n[desc]}: ${day[desc]}`;
+				tickerItem.textContent = `${weather.i18n[desc]} : ${day[desc]}`;
 				tickerBox.appendChild(tickerItem);
 			});
 
 			newItem = document.createElement('p');
 			newItem.classList.add('ticker__item');
-			newItem.textContent = '||';
-			// const img = document.createElement('img');
-			// img.setAttribute('src', 'assets/sun (1).svg');
-			// newItem.appendChild(img);
+			const img = document.createElement('img');
+			img.setAttribute('src', 'https://www.amcharts.com/wp-content/themes/amcharts4/css/img/icons/weather/animated/cloudy-day-2.svg');
+			img.style.width = '30px';
+			newItem.appendChild(img);
 			tickerBox.appendChild(newItem);
 		});
 

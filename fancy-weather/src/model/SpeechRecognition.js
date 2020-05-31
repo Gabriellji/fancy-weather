@@ -1,10 +1,12 @@
+// import stateGetterAdapter from '../state/StateGetterAdapter';
 
 // window.SpeechRecognition = window.SpeechRecognition || window.webkit.SpeechRecognition;
 
 // const recognition = new SpeechRecognition();
 // recognition.interimResults = true;
 
-// const value = document.querySelector('#input-7');
+// const value = this.stateGetterAdapter.getMainWeather();
+// co
 
 // recognition.addEventListener('result', (e) => {
 // 	const transcript = Array.from(e.results)

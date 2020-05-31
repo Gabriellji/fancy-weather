@@ -7,7 +7,6 @@ class Buttons extends Widget {
 		this.state = state;
 
 		this.buttonsPanel = document.querySelector('.buttons');
-		this.oneMoreButtonBox = document.querySelector('.temperature__box');
 	}
 
 	draw() {
@@ -19,6 +18,7 @@ class Buttons extends Widget {
 		this.createClickMeButton();
 		this.createLanguageButtons();
 		this.createTemperatureButtons();
+		this.createVolumeButtons();
 	}
 
 	createClickMeButton() {
@@ -29,7 +29,6 @@ class Buttons extends Widget {
 		button.classList.add('c-smileyButton');
 		button.textContent = '&nbsp';
 		button.textContent = 'Click'; // &nbsp;
-		
 
 		const smileFace = document.createElement('span');
 		smileFace.classList.add('c-smileyButton__face');
@@ -103,6 +102,41 @@ class Buttons extends Widget {
 			temperatureBox.appendChild(a);
 		}
 		this.buttonsPanel.appendChild(temperatureBox);
+	}
+
+	createVolumeButtons() {
+		const volumeBox = document.createElement('div');
+		volumeBox.classList.add('volume__box');
+
+		const volumeStart = document.createElement('span');
+		const volumeStop = document.createElement('span');
+
+		volumeStart.classList.add('btn-volume-start', 'shake-top');
+		volumeStop.classList.add('btn-volume-stop', 'shake-top');
+
+		const imgStart = document.createElement('img');
+		const imgStop = document.createElement('img');
+
+		imgStart.classList.add('img-voice');
+		imgStop.classList.add('img-voice');
+
+		imgStart.setAttribute('src', 'assets/volume-up-solid.svg');
+		imgStop.setAttribute('src', 'assets/volume-off-solid.svg');
+
+		volumeStart.appendChild(imgStart);
+		volumeStop.appendChild(imgStop);
+
+		volumeBox.appendChild(volumeStart);
+		volumeBox.appendChild(volumeStop);
+		this.buttonsPanel.appendChild(volumeBox);
+
+		volumeStart.addEventListener('click', (() => {
+			this.model.startVoiceWeather();
+		}));
+
+		volumeStop.addEventListener('click', (() => {
+			this.model.stopVoiceWeather();
+		}));
 	}
 }
 

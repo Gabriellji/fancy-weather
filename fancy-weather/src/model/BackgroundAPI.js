@@ -22,7 +22,7 @@ const backgroundAPI = {
 			query = `${query}&query=${search}`;
 		}
 		const response = await fetch(query);
-			if (!response.ok) {
+		if (!response.ok) {
 			throw new Error(response.status);
 		}
 		const data = await response.json();

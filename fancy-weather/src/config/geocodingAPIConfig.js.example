@@ -1,0 +1,6 @@
+const geocodingApiConfig = {
+	geocodingUrl: 'https://api.opencagedata.com/geocode/v1/json',
+	accesKey: '',
+};
+
+export default geocodingApiConfig;

@@ -1,42 +1,45 @@
 .ticker-wrapper {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 4rem;
-    overflow: hidden;
-    box-sizing: content-box;
-    padding-left: 100%;
-    background: -webkit-gradient(linear,left bottom,left top,from(rgba(43,43,66,.6)),color-stop(50%,rgba(43,43,66,.6)),to(rgba(43,43,66,0)));
-    background: linear-gradient(0deg,rgba(43,43,66,.6),rgba(43,43,66,.6) 50%,rgba(43,43,66,0));
-}
-
-.ticker-wrapper .ticker {
-    display: inline-block;
-    height: 4rem;
-    box-sizing: content-box;
-    padding-right: 100%;
-    line-height: 4rem;
-    white-space: nowrap;
-    -webkit-animation: ticker 120s linear infinite;
-    animation: ticker 120s linear infinite;
-}
-
-@keyframes ticker {
-    0% {
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
-      visibility: visible;
-    }
-  
-    100% {
-      -webkit-transform: translate3d(-100%, 0, 0);
-      transform: translate3d(-100%, 0, 0);
-    }
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:4rem;
+  overflow:hidden;
+  box-sizing:content-box;
+  padding-left:100%;
+  background:-webkit-gradient(linear,left bottom,left top,from(rgba(43,43,66,.6)),color-stop(50%,rgba(43,43,66,.6)),to(rgba(43,43,66,0)));
+  background:linear-gradient(0deg,rgba(43,43,66,.6),rgba(43,43,66,.6) 50%,rgba(43,43,66,0));
   }
-
-.ticker-wrapper .ticker__item {
-    display: inline-block;
-    padding: 0 2rem;
-    font-size: 1.4rem;
-    color: #fff;
-}
+  
+  .ticker-wrapper .ticker {
+  display:inline-block;
+  height:4rem;
+  box-sizing:content-box;
+  padding-right:100%;
+  line-height:4rem;
+  white-space:nowrap;
+  -webkit-animation:ticker 120s linear infinite;
+  animation:ticker 120s linear infinite;
+  }
+  
+  @keyframes ticker {
+  0% {
+  -webkit-transform:translate3d(0,0,0);
+  transform:translate3d(0,0,0);
+  visibility:visible;
+  }
+  
+  100% {
+  -webkit-transform:translate3d(-100%,0,0);
+  transform:translate3d(-100%,0,0);
+  }
+  }
+  
+  .ticker-wrapper .ticker__item {
+  display:inline-flex;
+  padding:0 2rem;
+  font-size:1.7rem;
+  color:#fff;
+  align-items:center;
+  vertical-align:middle;
+  letter-spacing: 0.5px;
+  }

@@ -27,6 +27,28 @@ class Map extends Widget {
 		}
 	}
 
+	truncate(n) {
+		return n > 0 ? Math.floor(n) : Math.ceil(n);
+	}
+
+	getDMS(dd, longOrLat) {
+		this.hemisphere = /^[WE]|(?:lon)/i.test(longOrLat)
+			? dd < 0
+				? 'W'
+				: 'E'
+			: dd < 0
+				? 'S'
+				: 'N';
+
+		const absDD = Math.abs(dd);
+		const degrees = this.truncate(absDD);
+		const minutes = this.truncate((absDD - degrees) * 60);
+		const seconds = ((absDD - degrees - minutes / 60) * Math.pow(60, 2)).toFixed(2);
+
+		const dmsArray = [degrees, minutes, seconds, this.hemisphere];
+		return `${dmsArray[0]}°${dmsArray[1]}'${dmsArray[2]}" ${dmsArray[3]}`;
+	}
+
 	createMapBox() {
 		this.mapBox = document.createElement('div');
 		this.mapBox.classList.add('map');
@@ -47,13 +69,15 @@ class Map extends Widget {
 	createMap(coords) {
 		const latitude = document.createElement('p');
 		latitude.classList.add('latitude');
-		latitude.textContent = `${coords.i18n.latitude}: ${coords.lat}`;
+		const lat = this.getDMS(coords.lat, 'lat');
+		latitude.textContent = `${coords.i18n.latitude} : ${lat}`;
 		const longitude = document.createElement('p');
 		longitude.classList.add('longitude');
-		longitude.textContent = `${coords.i18n.longitude}: ${coords.long}`;
+		const long = this.getDMS(coords.long, 'long');
+		longitude.textContent = `${coords.i18n.longitude} : ${long}`;
 
 		this.coordinates.appendChild(latitude);
-		this.coordinates.appendChild(longitude);	
+		this.coordinates.appendChild(longitude);
 	}
 }
 

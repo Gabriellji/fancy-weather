@@ -24,5 +24,4 @@ const weatherAPI = {
 	},
 };
 
-
 export default weatherAPI;

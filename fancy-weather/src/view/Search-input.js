@@ -28,7 +28,7 @@ class Search extends Widget {
 	}
 
 	createSearchPanel(text) {
-		this.labelSpan.setAttribute('data-content', text.i18n.searchPlaceholder);
+		this.labelSpan.setAttribute('data-content', text.i18n.example);
 		this.labelSpan.textContent = text.i18n.searchPlaceholder;
 	}
 }

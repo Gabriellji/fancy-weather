@@ -4,7 +4,8 @@ const lang = {
 		description: '',
 	},
 	control: {
-		searchPlaceholder: 'Search city or ZIP',
+		searchPlaceholder: 'Search city',
+		example: 'Example: city, country',
 		searchBtnTxt: 'Search',
 	},
 	weatherToday: {
