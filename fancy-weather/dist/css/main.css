@@ -84,6 +84,7 @@
     
     .weather-data__temperature-today {
     display:flex;
+    justify-content: center;
     grid-column:1/3;
     grid-row:3/5;
     text-align:center;

@@ -7,11 +7,13 @@ class Search extends Widget {
 		this.searchContainer = document.querySelector('.search');
 		this.labelSpan = document.querySelector('.input__label-content');
 		this.input = document.querySelector('#input-7');
+		this.cleanButton = document.querySelector('.clean');
 		this.searchButton = document.querySelector('.btn-search');
 		this.voiceButton = document.querySelector('.btn-voice');
 
 		this.searchButton.addEventListener('click', () => {
 			this.model.searchCity(this.input.value);
+			this.input.value = '';
 		});
 
 		this.voiceButton.addEventListener('click', () => {
@@ -22,6 +24,11 @@ class Search extends Widget {
 			if (e.key === 'Enter') {
 				this.model.searchCity(this.input.value);
 			}
+		});
+
+		this.cleanButton.addEventListener('click', () => {
+			this.input.value = '';
+			this.input.focus();
 		});
 	}
 

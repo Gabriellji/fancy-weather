@@ -176,6 +176,13 @@
 	padding:5em 0 0;
 	font-size:.65em;
 	}
+	.btn-clean {
+	position:relative;
+	z-index:1;
+	top:20px;
+	margin-left:10px;
+	transition:all .25s;
+	}
 	
 	.btn-search {
 	position:relative;
@@ -197,6 +204,15 @@
 	width:24px;
 	}
 	
+	.clean {
+	position: absolute;
+	right: 15px;
+    top: 46px;
+    fill: #6483aa99;
+	width: 20px;
+	transition: all .25s;	
+	}
+
 	.shake-lr {
 	fill:#fff;
 	width:35px;
@@ -211,6 +227,10 @@
 	
 	.shake-lr:active {
 	fill:orange;
+	}
+
+	.clean:active {
+	transform: scale(0.8);
 	}
 	
 	@-webkit-keyframes shake-lr {

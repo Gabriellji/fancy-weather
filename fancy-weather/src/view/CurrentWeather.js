@@ -1,10 +1,12 @@
 import Widget from './Widget';
 
+
 class CurrentWeather extends Widget {
 	constructor() {
 		super();
 
 		this.data = new Date();
+
 
 		this.weatherPanel = document.querySelector('.weather-main');
 		this.weatherWrapper = document.querySelector('.main-wrapper');
@@ -17,18 +19,17 @@ class CurrentWeather extends Widget {
 			const weather = this.stateGetterAdapter.getMainWeather();
 			this.weatherMain(weather);
 			this.weatherCondition(weather);
-			this.speech(weather.speechText);
-			console.log(weather);
+			// this.speech(weather.speechText);
 		}
 	}
 
-	speech(speechText) {
-		console.log(speechText);
-		speechSynthesis.cancel();
-		const msg = new SpeechSynthesisUtterance();
-		msg.text = speechText;
-		speechSynthesis.speak(msg);
-	}
+	// speech(speechText) {
+	// 	console.log(speechText);
+	// 	speechSynthesis.cancel();
+	// 	const msg = new SpeechSynthesisUtterance();
+	// 	msg.text = speechText;
+	// 	speechSynthesis.speak(msg);
+	// }
 
 	initDataTime(weather) {
 		const dateTime = document.createElement('p');

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import TranslationAPI from '../model/TranslationAPI';
 import state from './state';
 import icons from '../weather-icons/weather-icons';
@@ -5,6 +6,7 @@ import icons from '../weather-icons/weather-icons';
 const stateHelper = {
 	state,
 	icons,
+	moment,
 	getDay(date) {
 		const numberOfDay = new Date(date).getDate();
 		return numberOfDay;
@@ -25,20 +27,30 @@ const stateHelper = {
 	getDateTime(dateString) {
 		const currentLang = this.state.getter('control.lang');
 		if (currentLang !== 'en') {
-			const dateArr = dateString.toDateString();
-			const splite = dateArr.split(' ');
-			const date = splite.splice(0, 3).reverse().join(' ');
-			return `${date}`;
+			// const weekDay = this.getWeekDay(dateString, currentLang);
+			// const month = this.getMonths(dateString, currentLang);
+			// const day = this.getDay(dateString);
+			// return `${day} ${month} ${weekDay}    `;
+			const res = this.moment(dateString, 'YYYY-MM-DD');
+			return res.format('D MMMM, dddd ');
 		}
-		const dateArr = dateString.toDateString();
-		const splite = dateArr.split(' ');
-		const date = splite.splice(0, 3).join(' ');
-		return `${date}`;
+		// const dateArr = dateString.toDateString();
+		// const splite = dateArr.split(' ');
+		// const date = splite.splice(0, 3).join(' ');
+
+
+		// const weekDay = this.getWeekDay(dateString, currentLang);
+		// const month = this.getMonths(dateString, currentLang);
+		// const day = this.getDay(dateString);
+		console.log(this.moment(dateString, 'YYYY-MM-DD HH:mm:ss'));
+		const res = this.moment(dateString, 'YYYY-MM-DD');
+		// `${weekDay} ${month} ${day}    `;
+		return res.format('dddd, MMMM Do');
 	},
 
 	async currentWeatherFormat(data) {
 		let place = `${data.location.name}, ${data.location.country}`;
-		let dataTime = this.getDateTime(new Date(data.location.localtime));
+		let dataTime = this.getDateTime(data.location.localtime);
 		let condition = data.current.condition.text;
 
 		const currentLang = this.state.getter('control.lang');
@@ -63,39 +75,37 @@ const stateHelper = {
 				: `${Math.round(data.current.feelslike_f)}°`,
 			wind: this.state.getter('control.lang') === 'en'
 				? `${Math.round(data.current.wind_mph)} m/h`
-				: `${Math.round(data.current.wind_mph)} м/с`,
+				: `${Math.round(data.current.wind_mph)} м/ч`,
 			humidity: `${data.current.humidity}%`,
 			speechText: await this.getWeatherSpeechText(data),
 		};
 	},
 
 	async getWeatherSpeechText(data) {
-        let text = `For ${this.getDateTime(new Date(data.location.localtime))},
-            ${data.location.name}, ${data.location.country},
-            the weather is ${
-            this.state.getter('control.tempScale') === 'C'
-                ? `${Math.round(data.current.temp_c)}°C`
-                : `${Math.round(data.current.temp_f)}°F`
-                }, ${data.current.condition.text}, 
+		let text = `Today is ${this.getDateTime(new Date(data.location.localtime))},
+            ${data.location.name}, ${data.location.country}.
+            Temperature is ${
+	this.state.getter('control.tempScale') === 'C'
+		? `${Math.round(data.current.temp_c)} Celsius degrees`
+		: `${Math.round(data.current.temp_f)} Fahrenheit degrees`},
+		 ${data.current.condition.text}, 
             feels like ${
-            this.state.getter('control.tempScale') === 'C'
-                ? `${Math.round(data.current.feelslike_c)}°C`
-                : `${Math.round(data.current.feelslike_f)}°F`
-                },
+	this.state.getter('control.tempScale') === 'C'
+		? `${Math.round(data.current.feelslike_c)} Celsius degrees`
+		: `${Math.round(data.current.feelslike_f)} Fahrenheit degrees`},
             wind ${
-                this.state.getter('control.lang') === 'en'
-                    ? `${Math.round(data.current.wind_mph)} m/h`
-                    : `${Math.round(data.current.wind_mph)} м/с`
-                }
-            , humidity
-            ${data.current.humidity}%`;
+	this.state.getter('control.lang') === 'en'
+		? `${Math.round(data.current.wind_mph)} meters per hour`
+		: `${Math.round(data.current.wind_mph)} метров в час`}
+			, humidity ${data.current.humidity}%. 
+			Thanks for using my app. Have a nice day! `;
 
-			const currentLang = this.state.getter('control.lang');
-			if (currentLang !== 'en') {
-				text = await TranslationAPI.loadTranslate(text, currentLang);
-			}
-			return text;
-		},
+		const currentLang = this.state.getter('control.lang');
+		if (currentLang !== 'en') {
+			text = await TranslationAPI.loadTranslate(text, currentLang);
+		}
+		return text;
+	},
 
 	threeDaysWeatherFormat(data) {
 		const currlang = this.state.getter('control.lang');

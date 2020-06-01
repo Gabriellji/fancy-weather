@@ -10,8 +10,23 @@ class Buttons extends Widget {
 	}
 
 	draw() {
+		// const weather = this.stateGetterAdapter.getMainWeather();
 		this.buttonsPanel.innerHTML = '';
 		this.createPanel();
+		// this.speechStart(weather.speechText);
+		// this.speechEnd();
+	}
+
+	speechStart(speechText) {
+		const msg = new SpeechSynthesisUtterance();
+		msg.text = speechText;
+		speechSynthesis.speak(msg);
+	}
+
+	speechEnd(speechText) {
+		const msg = new SpeechSynthesisUtterance();
+		msg.text = speechText;
+		speechSynthesis.cancel();
 	}
 
 	createPanel() {
@@ -130,12 +145,14 @@ class Buttons extends Widget {
 		volumeBox.appendChild(volumeStop);
 		this.buttonsPanel.appendChild(volumeBox);
 
+		const weather = this.stateGetterAdapter.getMainWeather();
+
 		volumeStart.addEventListener('click', (() => {
-			this.model.startVoiceWeather();
+			this.speechStart(weather.speechText);
 		}));
 
 		volumeStop.addEventListener('click', (() => {
-			this.model.stopVoiceWeather();
+			this.speechEnd(weather.speechText);
 		}));
 	}
 }

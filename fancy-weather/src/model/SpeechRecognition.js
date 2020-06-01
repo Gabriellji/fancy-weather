@@ -14,18 +14,19 @@ const speechRecognition = {
 				reject(new Error('Браузер не поддерживает данную технологию'));
 			}
 
-			recognition.start();
+			
 
 			recognition.addEventListener('result', (e) => {
 				const transcript = Array.from(e.results)
 					.map((result) => result[0].transcript)
-                    .join('');
-                    console.log(transcript);
+					.join('');
+				console.log(transcript);
 
 				if (e.results[0].isFinal) {
 					return resolve(transcript);
 				}
-			});
+            });
+            recognition.start();
 		});
 	},
 };
