@@ -69,6 +69,7 @@
     .weather-data__location {
     grid-column:1/4;
     font-size:3.4rem;
+    min-height: 43px;
     }
     
     .weather-data__date-time {
@@ -78,6 +79,7 @@
     text-transform:capitalize;
     font-weight:400;
     letter-spacing: 0.5px;
+    min-height: 28px;
     }
     
     .weather-data__temperature-today {
@@ -86,7 +88,7 @@
     grid-row:3/5;
     text-align:center;
     font-size:30.6rem;
-    letter-spacing:20px;
+    letter-spacing: 5px;
     }
     
     .cels {
@@ -103,7 +105,8 @@
     }
     
     .weather-data__weather-data {
-    margin-bottom:8rem;
+    margin-bottom:5rem;
+    min-height: 155px;
     }
     
     .weather-data__weather-data>:not(:last-child) {
@@ -124,7 +127,7 @@
     
     .forecast__temperature {
     font-size:8rem;
-    letter-spacing:6px;
+    letter-spacing: 3px;
     }
     
     .forecast__icon {
@@ -201,6 +204,11 @@
     .weather-data__temperature-today {
     grid-column:1/4;
     font-size:18.6rem;
+    display: block;
+    }
+    .cels {
+    position: absolute;
+    font-size:10rem;
     }
     }
     
@@ -239,5 +247,6 @@
     @media (max-width: 415px) {
     .weather-data__date-time {
     font-size:4.2rem;
+    min-height: 100px;
     }
     }

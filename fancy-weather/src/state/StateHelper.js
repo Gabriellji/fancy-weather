@@ -65,8 +65,37 @@ const stateHelper = {
 				? `${Math.round(data.current.wind_mph)} m/h`
 				: `${Math.round(data.current.wind_mph)} м/с`,
 			humidity: `${data.current.humidity}%`,
+			speechText: await this.getWeatherSpeechText(data),
 		};
 	},
+
+	async getWeatherSpeechText(data) {
+        let text = `For ${this.getDateTime(new Date(data.location.localtime))},
+            ${data.location.name}, ${data.location.country},
+            the weather is ${
+            this.state.getter('control.tempScale') === 'C'
+                ? `${Math.round(data.current.temp_c)}°C`
+                : `${Math.round(data.current.temp_f)}°F`
+                }, ${data.current.condition.text}, 
+            feels like ${
+            this.state.getter('control.tempScale') === 'C'
+                ? `${Math.round(data.current.feelslike_c)}°C`
+                : `${Math.round(data.current.feelslike_f)}°F`
+                },
+            wind ${
+                this.state.getter('control.lang') === 'en'
+                    ? `${Math.round(data.current.wind_mph)} m/h`
+                    : `${Math.round(data.current.wind_mph)} м/с`
+                }
+            , humidity
+            ${data.current.humidity}%`;
+
+			const currentLang = this.state.getter('control.lang');
+			if (currentLang !== 'en') {
+				text = await TranslationAPI.loadTranslate(text, currentLang);
+			}
+			return text;
+		},
 
 	threeDaysWeatherFormat(data) {
 		const currlang = this.state.getter('control.lang');

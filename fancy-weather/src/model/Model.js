@@ -9,6 +9,7 @@ import state from '../state/state';
 import stateHelper from '../state/StateHelper';
 import stateSetterAdapter from '../state/StateSetterAdapter';
 import stateGetterAdapter from '../state/StateGetterAdapter';
+import speechRecognition from './SpeechRecognition';
 
 const Model = {
 	backgroundAPI,
@@ -80,6 +81,11 @@ const Model = {
 
 		const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
 		await this.stateSetterAdapter.setWeather(weather);
+	},
+
+	async searchCityVoice() {
+		const city = await speechRecognition.getSpeech();
+		this.searchCity(city);
 	},
 
 	async searchCity(city) {

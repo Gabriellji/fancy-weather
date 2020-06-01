@@ -17,7 +17,17 @@ class CurrentWeather extends Widget {
 			const weather = this.stateGetterAdapter.getMainWeather();
 			this.weatherMain(weather);
 			this.weatherCondition(weather);
+			this.speech(weather.speechText);
+			console.log(weather);
 		}
+	}
+
+	speech(speechText) {
+		console.log(speechText);
+		speechSynthesis.cancel();
+		const msg = new SpeechSynthesisUtterance();
+		msg.text = speechText;
+		speechSynthesis.speak(msg);
 	}
 
 	initDataTime(weather) {

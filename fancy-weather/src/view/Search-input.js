@@ -8,9 +8,14 @@ class Search extends Widget {
 		this.labelSpan = document.querySelector('.input__label-content');
 		this.input = document.querySelector('#input-7');
 		this.searchButton = document.querySelector('.btn-search');
+		this.voiceButton = document.querySelector('.btn-voice');
 
 		this.searchButton.addEventListener('click', () => {
 			this.model.searchCity(this.input.value);
+		});
+
+		this.voiceButton.addEventListener('click', () => {
+			this.model.searchCityVoice(this.input.value);
 		});
 
 		this.input.addEventListener('keydown', (e) => {

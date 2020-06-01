@@ -1,29 +1,33 @@
-// import stateGetterAdapter from '../state/StateGetterAdapter';
 
-// window.SpeechRecognition = window.SpeechRecognition || window.webkit.SpeechRecognition;
+const speechRecognition = {
+	getSpeech() {
+		return new Promise((resolve, reject) => {
+			let recognition = {};
+			try {
+				recognition = new (
+					window.SpeechRecognition
+                    || window.webkitSpeechRecognition
+                    || window.mozSpeechRecognition
+                    || window.msSpeechRecognition
+				)();
+			} catch (err) {
+				reject(new Error('Браузер не поддерживает данную технологию'));
+			}
 
-// const recognition = new SpeechRecognition();
-// recognition.interimResults = true;
+			recognition.start();
 
-// const value = this.stateGetterAdapter.getMainWeather();
-// co
+			recognition.addEventListener('result', (e) => {
+				const transcript = Array.from(e.results)
+					.map((result) => result[0].transcript)
+                    .join('');
+                    console.log(transcript);
 
-// recognition.addEventListener('result', (e) => {
-// 	const transcript = Array.from(e.results)
-// 		.map((result) => result[0])
-// 		.map((result) => result.transcript)
-// 		.join('');
+				if (e.results[0].isFinal) {
+					return resolve(transcript);
+				}
+			});
+		});
+	},
+};
 
-// 	value.textContent = transcript;
-// 	if (e.results[0].isFinal) {
-// 		// this.model.searchCity(this.input.value);
-// 		console.log(transcript);
-// 	}
-// });
-
-// recognition.addEventListener('end', recognition.start);
-
-// document.querySelector('.btn-voice').addEventListener('click', () => {
-// 	recognition.start();
-// 	console.log('specc');
-// });
+export default speechRecognition;

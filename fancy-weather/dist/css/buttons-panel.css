@@ -4,6 +4,11 @@
   justify-content:center;
   }
 
+  .errors {
+    min-height: 50px;
+    min-width: 570px;
+  }
+
   .click-me__box {
   min-width: 107px;  
   }
