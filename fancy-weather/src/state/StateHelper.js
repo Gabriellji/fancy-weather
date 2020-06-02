@@ -31,8 +31,8 @@ const stateHelper = {
 			// const month = this.getMonths(dateString, currentLang);
 			// const day = this.getDay(dateString);
 			// return `${day} ${month} ${weekDay}    `;
-			const res = this.moment(dateString, 'YYYY-MM-DD');
-			return res.format('D MMMM, dddd ');
+			const date = this.moment(dateString, 'YYYY-MM-DD');
+			return date.format('D MMMM, dddd ');
 		}
 		// const dateArr = dateString.toDateString();
 		// const splite = dateArr.split(' ');
@@ -42,10 +42,9 @@ const stateHelper = {
 		// const weekDay = this.getWeekDay(dateString, currentLang);
 		// const month = this.getMonths(dateString, currentLang);
 		// const day = this.getDay(dateString);
-		console.log(this.moment(dateString, 'YYYY-MM-DD HH:mm:ss'));
-		const res = this.moment(dateString, 'YYYY-MM-DD');
+		const date = this.moment(dateString, 'YYYY-MM-DD');
 		// `${weekDay} ${month} ${day}    `;
-		return res.format('dddd, MMMM Do');
+		return date.format('dddd, MMMM Do');
 	},
 
 	async currentWeatherFormat(data) {
@@ -82,7 +81,7 @@ const stateHelper = {
 	},
 
 	async getWeatherSpeechText(data) {
-		let text = `Today is ${this.getDateTime(new Date(data.location.localtime))},
+		let text = `Today is ${this.getDateTime(data.location.localtime)},
             ${data.location.name}, ${data.location.country}.
             Temperature is ${
 	this.state.getter('control.tempScale') === 'C'
