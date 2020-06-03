@@ -24,8 +24,18 @@ const Model = {
 	stateSetterAdapter,
 	stateGetterAdapter,
 
+	preInit() {
+		let options = window.localStorage.getItem('options');
+		if (options) {
+			options = JSON.parse(options);
+			this.stateSetterAdapter.setOptions(options.lang, options.scale);
+		} else {
+			this.stateSetterAdapter.setOptions('en', 'C');
+		}
+		this.init();
+	},
+
 	async init() {
-		this.stateSetterAdapter.setOptions('en', 'C');
 		this.stateSetterAdapter.setI18nText(
 			this.i18n.getStaticText(
 				this.stateGetterAdapter.getLang(),
@@ -35,6 +45,7 @@ const Model = {
 			const geoRequest = await geolocationAPI.loadLocation();
 			this.geolocation = geoRequest.coords;
 		} catch (err) {
+			this.stateSetterAdapter.setErrors('Invalid Request');
 			this.geolocation = { latitude: '53.9', longitude: '27.57' };
 		}
 		this.stateSetterAdapter.setCoordinates(
@@ -45,31 +56,45 @@ const Model = {
 			this.geolocation.latitude,
 			this.geolocation.longitude,
 		));
+		try {
+			const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
+			await this.stateSetterAdapter.setWeather(weather);
 
-		const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
-		await this.stateSetterAdapter.setWeather(weather);
+			this.stateSetterAdapter.isDay(weather.current.is_day);
+		} catch (err) {
+			this.stateSetterAdapter.setErrors('Invalid Request');
+		}
 
-		this.stateSetterAdapter.isDay(weather.current.is_day);
 
 		try {
 			const background = await this.backgroundAPI.loadBgImage();
 			this.stateSetterAdapter.setBgImage(background);
 		} catch (err) {
+			this.stateSetterAdapter.setErrors('Something went wrong =( ...');
 			this.stateSetterAdapter.setBgImage('/assets/default.jpg');
 		}
 		this.state.ready();
 	},
 
 	async reloadBg() {
-		const background = await this.backgroundAPI.loadBgImage();
-		this.stateSetterAdapter.setBgImage(background);
+		try {
+			const background = await this.backgroundAPI.loadBgImage();
+			this.stateSetterAdapter.setBgImage(background);
+		} catch (err) {
+			this.stateSetterAdapter.setErrors('Something went wrong =( ...');
+		}
 	},
 
 	async changeLang(locale) {
 		this.stateSetterAdapter.setLang(locale);
 
-		const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
-		await this.stateSetterAdapter.setWeather(weather);
+		try {
+			const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
+			await this.stateSetterAdapter.setWeather(weather);
+		} catch (err) {
+			this.stateSetterAdapter.setErrors('Invalid Request');
+		}
+
 
 		this.stateSetterAdapter.setI18nText(
 			this.i18n.getStaticText(locale),
@@ -79,30 +104,51 @@ const Model = {
 	async changeTemp(tempScale) {
 		this.stateSetterAdapter.setScale(tempScale);
 
-		const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
-		await this.stateSetterAdapter.setWeather(weather);
+		try {
+			const weather = await this.weatherAPI.loadWeather(this.stateGetterAdapter.getCity());
+			await this.stateSetterAdapter.setWeather(weather);
+		} catch (err) {
+			this.stateSetterAdapter.setErrors('Invalid Request');
+		}
 	},
 
 	async searchCityVoice() {
-		const city = await speechRecognition.getSpeech();
-		this.searchCity(city);
+		try {
+			const city = await speechRecognition.getSpeech();
+			this.searchCity(city);
+			this.reloadBg();
+		} catch (err) {
+			this.stateSetterAdapter.setErrors('Invalid Request');
+		}
 	},
 
 	async searchCity(city) {
 		this.stateSetterAdapter.setSearch(city);
 		this.stateSetterAdapter.setCity(city);
 
-		const geoRequest = await this.geocodingAPI.loadGeoCodeForward(city);
+		this.stateSetterAdapter.setSearchingStatus(true);
 
-		this.stateSetterAdapter.setCoordinates(
-			geoRequest.lat,
-			geoRequest.long,
-		);
+		try {
+			const geoRequest = await this.geocodingAPI.loadGeoCodeForward(city);
 
-		const weather = await this.weatherAPI.loadWeather(city);
-		await this.stateSetterAdapter.setWeather(weather);
+			this.stateSetterAdapter.setCoordinates(
+				geoRequest.lat,
+				geoRequest.long,
+			);
+		} catch (err) {
+			this.stateSetterAdapter.setErrors('Invalid Request');
+		}
+
+		try {
+			const weather = await this.weatherAPI.loadWeather(city);
+			await this.stateSetterAdapter.setWeather(weather);
+		} catch (err) {
+			this.stateSetterAdapter.setErrors('Invalid Request');
+		}
+
 
 		this.reloadBg();
+		this.stateSetterAdapter.setSearchingStatus(false);
 	},
 };
 

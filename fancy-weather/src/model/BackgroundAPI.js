@@ -13,8 +13,10 @@ const backgroundAPI = {
 		let query;
 		if (this.state.getter('control.is_day')) {
 			query = `${this.url}?orientation=${this.orientation}&query=cloud,islands,outdoor,asia&per_page=1&client_id=${this.accesKey}`;
+			console.log('cloud,islands,outdoor,palms');
 		} else {
-			query = `${this.url}?orientation=${this.orientation}&query=night,cloud,nature&per_page=1&client_id=${this.accesKey}`;
+			query = `${this.url}?orientation=${this.orientation}&query=night,cloud,nature,moon&per_page=1&client_id=${this.accesKey}`;
+			console.log('night,cloud,nature,moon');
 		}
 		if (!search) {
 			query = `${query}&collections=${this.collectionsID}`;

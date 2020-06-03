@@ -24,24 +24,10 @@ const speechRecognition = {
 				const transcript = Array.from(e.results)
 					.map((result) => result[0].transcript)
 					.join('');
-				// const input = document.querySelector('#input-7');
-				// input.focus();
-				// input.value = transcript;
 
-				const searchResult = document.querySelector('.err');
-				searchResult.style.display = 'unset';
-				searchResult.classList.add('tracking-in-expand-fwd');
-				searchResult.textContent = `Searching for ${transcript}...`;
-				setTimeout(() => {
-					searchResult.style.display = 'none';
-					searchResult.textContent = '';
-				}, 7000);
 				if (e.results[0].isFinal) {
 					return resolve(transcript);
 				}
-				// if (transcript.contains('play')) {
-
-				// }
 			});
 			recognition.start();
 		});

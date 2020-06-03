@@ -27,23 +27,10 @@ const stateHelper = {
 	getDateTime(dateString) {
 		const currentLang = this.state.getter('control.lang');
 		if (currentLang !== 'en') {
-			// const weekDay = this.getWeekDay(dateString, currentLang);
-			// const month = this.getMonths(dateString, currentLang);
-			// const day = this.getDay(dateString);
-			// return `${day} ${month} ${weekDay}    `;
 			const date = this.moment(dateString, 'YYYY-MM-DD');
 			return date.format('D MMMM, dddd ');
 		}
-		// const dateArr = dateString.toDateString();
-		// const splite = dateArr.split(' ');
-		// const date = splite.splice(0, 3).join(' ');
-
-
-		// const weekDay = this.getWeekDay(dateString, currentLang);
-		// const month = this.getMonths(dateString, currentLang);
-		// const day = this.getDay(dateString);
 		const date = this.moment(dateString, 'YYYY-MM-DD');
-		// `${weekDay} ${month} ${day}    `;
 		return date.format('dddd, MMMM Do');
 	},
 

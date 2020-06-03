@@ -32710,14 +32710,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _model_Model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./model/Model */ "./src/model/Model.js");
 /* harmony import */ var _view_View__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./view/View */ "./src/view/View.js");
 
- // document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure';
-// const overlay = document.querySelector('.overlay');
-// window.addEventListener('load', () => {
-// 	overlay.style.display = 'none';
-// });
 
 new _view_View__WEBPACK_IMPORTED_MODULE_1__["default"]();
-_model_Model__WEBPACK_IMPORTED_MODULE_0__["default"].init();
+_model_Model__WEBPACK_IMPORTED_MODULE_0__["default"].preInit();
 
 /***/ }),
 
@@ -32802,8 +32797,10 @@ var backgroundAPI = {
 
               if (_this.state.getter('control.is_day')) {
                 query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=cloud,islands,outdoor,asia&per_page=1&client_id=").concat(_this.accesKey);
+                console.log('cloud,islands,outdoor,palms');
               } else {
-                query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=night,cloud,nature&per_page=1&client_id=").concat(_this.accesKey);
+                query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=night,cloud,nature,moon&per_page=1&client_id=").concat(_this.accesKey);
+                console.log('night,cloud,nature,moon');
               }
 
               if (!search) {
@@ -33113,6 +33110,18 @@ var Model = {
   stateHelper: _state_StateHelper__WEBPACK_IMPORTED_MODULE_7__["default"],
   stateSetterAdapter: _state_StateSetterAdapter__WEBPACK_IMPORTED_MODULE_8__["default"],
   stateGetterAdapter: _state_StateGetterAdapter__WEBPACK_IMPORTED_MODULE_9__["default"],
+  preInit: function preInit() {
+    var options = window.localStorage.getItem('options');
+
+    if (options) {
+      options = JSON.parse(options);
+      this.stateSetterAdapter.setOptions(options.lang, options.scale);
+    } else {
+      this.stateSetterAdapter.setOptions('en', 'C');
+    }
+
+    this.init();
+  },
   init: function init() {
     var _this = this;
 
@@ -33122,23 +33131,24 @@ var Model = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this.stateSetterAdapter.setOptions('en', 'C');
-
               _this.stateSetterAdapter.setI18nText(_this.i18n.getStaticText(_this.stateGetterAdapter.getLang()));
 
-              _context.prev = 2;
-              _context.next = 5;
+              _context.prev = 1;
+              _context.next = 4;
               return _GeolocationAPI__WEBPACK_IMPORTED_MODULE_2__["default"].loadLocation();
 
-            case 5:
+            case 4:
               geoRequest = _context.sent;
               _this.geolocation = geoRequest.coords;
               _context.next = 12;
               break;
 
-            case 9:
-              _context.prev = 9;
-              _context.t0 = _context["catch"](2);
+            case 8:
+              _context.prev = 8;
+              _context.t0 = _context["catch"](1);
+
+              _this.stateSetterAdapter.setErrors('Invalid Request');
+
               _this.geolocation = {
                 latitude: '53.9',
                 longitude: '27.57'
@@ -33156,44 +33166,57 @@ var Model = {
 
               _context.t1.setCity.call(_context.t1, _context.t2);
 
-              _context.next = 20;
+              _context.prev = 18;
+              _context.next = 21;
               return _this.weatherAPI.loadWeather(_this.stateGetterAdapter.getCity());
 
-            case 20:
+            case 21:
               weather = _context.sent;
-              _context.next = 23;
+              _context.next = 24;
               return _this.stateSetterAdapter.setWeather(weather);
 
-            case 23:
+            case 24:
               _this.stateSetterAdapter.isDay(weather.current.is_day);
 
-              _context.prev = 24;
-              _context.next = 27;
-              return _this.backgroundAPI.loadBgImage();
+              _context.next = 30;
+              break;
 
             case 27:
+              _context.prev = 27;
+              _context.t3 = _context["catch"](18);
+
+              _this.stateSetterAdapter.setErrors('Invalid Request');
+
+            case 30:
+              _context.prev = 30;
+              _context.next = 33;
+              return _this.backgroundAPI.loadBgImage();
+
+            case 33:
               background = _context.sent;
 
               _this.stateSetterAdapter.setBgImage(background);
 
-              _context.next = 34;
+              _context.next = 41;
               break;
 
-            case 31:
-              _context.prev = 31;
-              _context.t3 = _context["catch"](24);
+            case 37:
+              _context.prev = 37;
+              _context.t4 = _context["catch"](30);
+
+              _this.stateSetterAdapter.setErrors('Something went wrong =( ...');
 
               _this.stateSetterAdapter.setBgImage('/assets/default.jpg');
 
-            case 34:
+            case 41:
               _this.state.ready();
 
-            case 35:
+            case 42:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[2, 9], [24, 31]]);
+      }, _callee, null, [[1, 8], [18, 27], [30, 37]]);
     }))();
   },
   reloadBg: function reloadBg() {
@@ -33205,20 +33228,30 @@ var Model = {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
+              _context2.prev = 0;
+              _context2.next = 3;
               return _this2.backgroundAPI.loadBgImage();
 
-            case 2:
+            case 3:
               background = _context2.sent;
 
               _this2.stateSetterAdapter.setBgImage(background);
 
-            case 4:
+              _context2.next = 10;
+              break;
+
+            case 7:
+              _context2.prev = 7;
+              _context2.t0 = _context2["catch"](0);
+
+              _this2.stateSetterAdapter.setErrors('Something went wrong =( ...');
+
+            case 10:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2);
+      }, _callee2, null, [[0, 7]]);
     }))();
   },
   changeLang: function changeLang(locale) {
@@ -33232,23 +33265,34 @@ var Model = {
             case 0:
               _this3.stateSetterAdapter.setLang(locale);
 
-              _context3.next = 3;
+              _context3.prev = 1;
+              _context3.next = 4;
               return _this3.weatherAPI.loadWeather(_this3.stateGetterAdapter.getCity());
 
-            case 3:
+            case 4:
               weather = _context3.sent;
-              _context3.next = 6;
+              _context3.next = 7;
               return _this3.stateSetterAdapter.setWeather(weather);
 
-            case 6:
+            case 7:
+              _context3.next = 12;
+              break;
+
+            case 9:
+              _context3.prev = 9;
+              _context3.t0 = _context3["catch"](1);
+
+              _this3.stateSetterAdapter.setErrors('Invalid Request');
+
+            case 12:
               _this3.stateSetterAdapter.setI18nText(_this3.i18n.getStaticText(locale));
 
-            case 7:
+            case 13:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3);
+      }, _callee3, null, [[1, 9]]);
     }))();
   },
   changeTemp: function changeTemp(tempScale) {
@@ -33262,20 +33306,31 @@ var Model = {
             case 0:
               _this4.stateSetterAdapter.setScale(tempScale);
 
-              _context4.next = 3;
+              _context4.prev = 1;
+              _context4.next = 4;
               return _this4.weatherAPI.loadWeather(_this4.stateGetterAdapter.getCity());
 
-            case 3:
+            case 4:
               weather = _context4.sent;
-              _context4.next = 6;
+              _context4.next = 7;
               return _this4.stateSetterAdapter.setWeather(weather);
 
-            case 6:
+            case 7:
+              _context4.next = 12;
+              break;
+
+            case 9:
+              _context4.prev = 9;
+              _context4.t0 = _context4["catch"](1);
+
+              _this4.stateSetterAdapter.setErrors('Invalid Request');
+
+            case 12:
             case "end":
               return _context4.stop();
           }
         }
-      }, _callee4);
+      }, _callee4, null, [[1, 9]]);
     }))();
   },
   searchCityVoice: function searchCityVoice() {
@@ -33287,20 +33342,32 @@ var Model = {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.next = 2;
+              _context5.prev = 0;
+              _context5.next = 3;
               return _SpeechRecognition__WEBPACK_IMPORTED_MODULE_10__["default"].getSpeech();
 
-            case 2:
+            case 3:
               city = _context5.sent;
 
               _this5.searchCity(city);
 
-            case 4:
+              _this5.reloadBg();
+
+              _context5.next = 11;
+              break;
+
+            case 8:
+              _context5.prev = 8;
+              _context5.t0 = _context5["catch"](0);
+
+              _this5.stateSetterAdapter.setErrors('Invalid Request');
+
+            case 11:
             case "end":
               return _context5.stop();
           }
         }
-      }, _callee5);
+      }, _callee5, null, [[0, 8]]);
     }))();
   },
   searchCity: function searchCity(city) {
@@ -33316,31 +33383,57 @@ var Model = {
 
               _this6.stateSetterAdapter.setCity(city);
 
-              _context6.next = 4;
+              _this6.stateSetterAdapter.setSearchingStatus(true);
+
+              _context6.prev = 3;
+              _context6.next = 6;
               return _this6.geocodingAPI.loadGeoCodeForward(city);
 
-            case 4:
+            case 6:
               geoRequest = _context6.sent;
 
               _this6.stateSetterAdapter.setCoordinates(geoRequest.lat, geoRequest["long"]);
 
-              _context6.next = 8;
+              _context6.next = 13;
+              break;
+
+            case 10:
+              _context6.prev = 10;
+              _context6.t0 = _context6["catch"](3);
+
+              _this6.stateSetterAdapter.setErrors('Invalid Request');
+
+            case 13:
+              _context6.prev = 13;
+              _context6.next = 16;
               return _this6.weatherAPI.loadWeather(city);
 
-            case 8:
+            case 16:
               weather = _context6.sent;
-              _context6.next = 11;
+              _context6.next = 19;
               return _this6.stateSetterAdapter.setWeather(weather);
 
-            case 11:
+            case 19:
+              _context6.next = 24;
+              break;
+
+            case 21:
+              _context6.prev = 21;
+              _context6.t1 = _context6["catch"](13);
+
+              _this6.stateSetterAdapter.setErrors('Invalid Request');
+
+            case 24:
               _this6.reloadBg();
 
-            case 12:
+              _this6.stateSetterAdapter.setSearchingStatus(false);
+
+            case 26:
             case "end":
               return _context6.stop();
           }
         }
-      }, _callee6);
+      }, _callee6, null, [[3, 10], [13, 21]]);
     }))();
   }
 };
@@ -33377,24 +33470,11 @@ var speechRecognition = {
       recognition.addEventListener('result', function (e) {
         var transcript = Array.from(e.results).map(function (result) {
           return result[0].transcript;
-        }).join(''); // const input = document.querySelector('#input-7');
-        // input.focus();
-        // input.value = transcript;
-
-        var searchResult = document.querySelector('.err');
-        searchResult.style.display = 'unset';
-        searchResult.classList.add('tracking-in-expand-fwd');
-        searchResult.textContent = "Searching for ".concat(transcript, "...");
-        setTimeout(function () {
-          searchResult.style.display = 'none';
-          searchResult.textContent = '';
-        }, 7000);
+        }).join('');
 
         if (e.results[0].isFinal) {
           return resolve(transcript);
-        } // if (transcript.contains('play')) {
-        // }
-
+        }
       });
       recognition.start();
     });
@@ -33600,6 +33680,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var stateGetterAdapter = {
   state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
+  getSearchingStatus: function getSearchingStatus() {
+    return this.state.getter('main.searchingStatus');
+  },
+  getOptions: function getOptions() {
+    return {
+      lang: this.state.getter('control.lang'),
+      scale: this.state.getter('control.tempScale')
+    };
+  },
   getCity: function getCity() {
     return this.state.getter('main.city');
   },
@@ -33647,6 +33736,9 @@ var stateGetterAdapter = {
       text: text,
       i18n: _objectSpread({}, i18n)
     };
+  },
+  getErrors: function getErrors() {
+    return this.state.errorGetter();
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (stateGetterAdapter);
@@ -33699,23 +33791,12 @@ var stateHelper = {
     var currentLang = this.state.getter('control.lang');
 
     if (currentLang !== 'en') {
-      // const weekDay = this.getWeekDay(dateString, currentLang);
-      // const month = this.getMonths(dateString, currentLang);
-      // const day = this.getDay(dateString);
-      // return `${day} ${month} ${weekDay}    `;
       var _date = this.moment(dateString, 'YYYY-MM-DD');
 
       return _date.format('D MMMM, dddd ');
-    } // const dateArr = dateString.toDateString();
-    // const splite = dateArr.split(' ');
-    // const date = splite.splice(0, 3).join(' ');
-    // const weekDay = this.getWeekDay(dateString, currentLang);
-    // const month = this.getMonths(dateString, currentLang);
-    // const day = this.getDay(dateString);
+    }
 
-
-    var date = this.moment(dateString, 'YYYY-MM-DD'); // `${weekDay} ${month} ${day}    `;
-
+    var date = this.moment(dateString, 'YYYY-MM-DD');
     return date.format('dddd, MMMM Do');
   },
   currentWeatherFormat: function currentWeatherFormat(data) {
@@ -33914,18 +33995,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var stateSetterAdapter = {
   state: _state__WEBPACK_IMPORTED_MODULE_0__["default"],
   helper: _StateHelper__WEBPACK_IMPORTED_MODULE_1__["default"],
+  setSearchingStatus: function setSearchingStatus(status) {
+    this.state.setter('main.searchingStatus', status);
+  },
+  setBackUp: function setBackUp(value) {
+    this.state.setter('', value);
+    this.state.ready();
+  },
   setCity: function setCity(city) {
     this.state.setter('main.city', city);
   },
   setOptions: function setOptions(locale, tempScale) {
     this.state.setter('control.lang', locale);
     this.state.setter('control.tempScale', tempScale);
+    window.localStorage.setItem('options', JSON.stringify({
+      lang: locale,
+      scale: tempScale
+    }));
   },
   setLang: function setLang(locale) {
     this.state.setter('control.lang', locale);
+    window.localStorage.setItem('options', JSON.stringify({
+      lang: locale,
+      scale: this.state.getter('control.tempScale')
+    }));
   },
   setScale: function setScale(tempScale) {
     this.state.setter('control.tempScale', tempScale);
+    window.localStorage.setItem('options', JSON.stringify({
+      lang: this.state.getter('control.lang'),
+      scale: tempScale
+    }));
   },
   setSearch: function setSearch(search) {
     this.state.setter('control.searchValue', search);
@@ -34026,6 +34126,9 @@ var stateSetterAdapter = {
         }
       }, _callee3);
     }))();
+  },
+  setErrors: function setErrors(err) {
+    this.state.errorSetter(err);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (stateSetterAdapter);
@@ -34058,7 +34161,8 @@ var state = {
     },
     main: {
       bgUrl: '',
-      city: ''
+      city: '',
+      searchingStatus: false
     },
     control: {
       langOptions: [],
@@ -34067,6 +34171,7 @@ var state = {
       searchValue: '',
       is_day: ''
     },
+    errors: [],
     weatherToday: {
       place: '',
       dataTime: '',
@@ -34123,7 +34228,21 @@ var state = {
       "long": ''
     }
   },
+  errorSetter: function errorSetter(err) {
+    this.store.errors.push(err);
+    this.emit('stateUpdated', 'errors');
+  },
+  errorGetter: function errorGetter() {
+    var errors = this.store.errors;
+    this.store.errors = [];
+    return errors;
+  },
   setter: function setter(path, value) {
+    if (path === '') {
+      this.store = value;
+      return;
+    }
+
     var pathArr = path.split('.');
     pathArr.reduce(function (acc, key, idx, arr) {
       if (_typeof(acc[key]) !== 'object' || idx === arr.length - 1) {
@@ -34138,6 +34257,10 @@ var state = {
     }
   },
   getter: function getter(path) {
+    if (path === '') {
+      return this.store;
+    }
+
     var pathArr = path.split('.');
     return pathArr.reduce(function (acc, key) {
       return acc[key];
@@ -34198,18 +34321,19 @@ var Background = /*#__PURE__*/function (_Widget) {
     _classCallCheck(this, Background);
 
     _this = _super.call(this);
+    _this.path = ['main.bgUrl'];
     _this.body = document.querySelector('body');
     return _this;
   }
 
   _createClass(Background, [{
     key: "draw",
-    value: function draw(path) {
+    value: function draw() {
       if (this.isStateReady()) {
         var img = this.stateGetterAdapter.getBackground();
         var overlay = document.querySelector('.overlay');
         overlay.style.display = 'none';
-        this.body.style.background = "\n            linear-gradient(rgba(8, 15, 26, 0.39) 0%, rgba(17, 17, 46, 0.46) 100%) center center / cover fixed,\n             url(".concat(img, ")center center / cover fixed");
+        this.body.style.background = "\n\t\t\t\tlinear-gradient(rgba(8, 15, 26, 0.39) 0%, rgba(17, 17, 46, 0.46) 100%) center center / cover fixed,\n\t\t\t\t url(".concat(img, ")center center / cover fixed");
       }
     }
   }]);
@@ -34269,6 +34393,7 @@ var Buttons = /*#__PURE__*/function (_Widget) {
 
     _this = _super.call(this);
     _this.state = _state_state__WEBPACK_IMPORTED_MODULE_1__["default"];
+    _this.path = ['control', 'control.lang', 'control.tempScale', 'weatherToday', 'i18n', 'i18n.default'];
     _this.buttonsPanel = document.querySelector('.buttons');
     return _this;
   }
@@ -34310,8 +34435,7 @@ var Buttons = /*#__PURE__*/function (_Widget) {
       var button = document.createElement('button');
       button.classList.add('c-smileyButton');
       button.textContent = '&nbsp';
-      button.textContent = 'Click'; // &nbsp;
-
+      button.textContent = 'Click';
       var smileFace = document.createElement('span');
       smileFace.classList.add('c-smileyButton__face');
       smileFace.style = '::before';
@@ -34475,6 +34599,7 @@ var CurrentWeather = /*#__PURE__*/function (_Widget) {
 
     _this = _super.call(this);
     _this.data = new Date();
+    _this.path = ['weatherToday', 'i18n', 'i18n.weatherToday', 'i18n.default'];
     _this.weatherPanel = document.querySelector('.weather-main');
     _this.weatherWrapper = document.querySelector('.main-wrapper');
     _this.weatherData = document.querySelector('.weather-data');
@@ -34483,21 +34608,14 @@ var CurrentWeather = /*#__PURE__*/function (_Widget) {
 
   _createClass(CurrentWeather, [{
     key: "draw",
-    value: function draw(path) {
+    value: function draw() {
       if (this.isStateReady()) {
         this.weatherData.innerHTML = '';
         var weather = this.stateGetterAdapter.getMainWeather();
         this.weatherMain(weather);
-        this.weatherCondition(weather); // this.speech(weather.speechText);
+        this.weatherCondition(weather);
       }
-    } // speech(speechText) {
-    // 	console.log(speechText);
-    // 	speechSynthesis.cancel();
-    // 	const msg = new SpeechSynthesisUtterance();
-    // 	msg.text = speechText;
-    // 	speechSynthesis.speak(msg);
-    // }
-
+    }
   }, {
     key: "initDataTime",
     value: function initDataTime(weather) {
@@ -34571,6 +34689,89 @@ var CurrentWeather = /*#__PURE__*/function (_Widget) {
 
 /***/ }),
 
+/***/ "./src/view/Errors.js":
+/*!****************************!*\
+  !*** ./src/view/Errors.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _state_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../state/state */ "./src/state/state.js");
+/* harmony import */ var _state_StateGetterAdapter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../state/StateGetterAdapter */ "./src/state/StateGetterAdapter.js");
+/* harmony import */ var _Widget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Widget */ "./src/view/Widget.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var Errors = /*#__PURE__*/function (_Widget) {
+  _inherits(Errors, _Widget);
+
+  var _super = _createSuper(Errors);
+
+  function Errors() {
+    var _this;
+
+    _classCallCheck(this, Errors);
+
+    _this = _super.call(this);
+    _this.state = _state_state__WEBPACK_IMPORTED_MODULE_0__["default"];
+    _this.stateGetterAdapter = _state_StateGetterAdapter__WEBPACK_IMPORTED_MODULE_1__["default"];
+    _this.path = ['errors'];
+    _this.errorsBox = document.querySelector('.errors');
+    _this.textBox = document.querySelector('.new-errors');
+    return _this;
+  }
+
+  _createClass(Errors, [{
+    key: "draw",
+    value: function draw() {
+      this.showErrors();
+    }
+  }, {
+    key: "showErrors",
+    value: function showErrors() {
+      var _this2 = this;
+
+      var errors = this.stateGetterAdapter.getErrors();
+      this.textBox.textContent = errors;
+      this.textBox.style.display = 'unset';
+      setTimeout(function () {
+        _this2.textBox.style.display = 'none';
+      }, 9000);
+    }
+  }]);
+
+  return Errors;
+}(_Widget__WEBPACK_IMPORTED_MODULE_2__["default"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Errors);
+
+/***/ }),
+
 /***/ "./src/view/ForecastWeather.js":
 /*!*************************************!*\
   !*** ./src/view/ForecastWeather.js ***!
@@ -34616,6 +34817,7 @@ var ForecastWeather = /*#__PURE__*/function (_Widget) {
     _classCallCheck(this, ForecastWeather);
 
     _this = _super.call(this);
+    _this.path = ['weatherThreeDays', 'i18n', 'i18n.default'];
     _this.weatherPanel = document.querySelector('.weather-main');
     _this.weatherWrapper = document.querySelector('.main-wrapper');
     _this.weatherData = document.querySelector('.weather-data');
@@ -34624,7 +34826,7 @@ var ForecastWeather = /*#__PURE__*/function (_Widget) {
 
   _createClass(ForecastWeather, [{
     key: "draw",
-    value: function draw(path) {
+    value: function draw() {
       if (this.isStateReady()) {
         var weather = this.stateGetterAdapter.getThreeDaysForecast();
         this.createForecastPanel(weather);
@@ -34716,6 +34918,7 @@ var Map = /*#__PURE__*/function (_Widget) {
     _classCallCheck(this, Map);
 
     _this = _super.call(this);
+    _this.path = ['map', 'map.lat', 'map.long', 'i18n', 'i18n.control', 'i18n.control.lang', 'i18n.default'];
     _this.weatherWrapper = document.querySelector('.weazzz');
 
     _this.createMapBox();
@@ -34723,7 +34926,7 @@ var Map = /*#__PURE__*/function (_Widget) {
     mapbox_gl_dist_mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default.a.accessToken = _config_mapAPIConfig__WEBPACK_IMPORTED_MODULE_2__["default"].accesKey;
     _this.mapBoxgl = new mapbox_gl_dist_mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default.a.Map({
       container: 'map',
-      zoom: 8,
+      zoom: 10,
       style: 'mapbox://styles/mapbox/streets-v11'
     });
     return _this;
@@ -34839,6 +35042,7 @@ var Search = /*#__PURE__*/function (_Widget) {
     _classCallCheck(this, Search);
 
     _this = _super.call(this);
+    _this.path = ['control', 'control.searchValue', 'control.lang', 'i18n', 'i18n.control', 'i18n.default'];
     _this.searchContainer = document.querySelector('.search');
     _this.labelSpan = document.querySelector('.input__label-content');
     _this.input = document.querySelector('#input-7');
@@ -34873,7 +35077,7 @@ var Search = /*#__PURE__*/function (_Widget) {
 
   _createClass(Search, [{
     key: "draw",
-    value: function draw(path) {
+    value: function draw() {
       if (this.isStateReady()) {
         var text = this.stateGetterAdapter.getInputText();
         this.createSearchPanel(text);
@@ -34891,6 +35095,77 @@ var Search = /*#__PURE__*/function (_Widget) {
 }(_Widget__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (Search);
+
+/***/ }),
+
+/***/ "./src/view/SearchResult.js":
+/*!**********************************!*\
+  !*** ./src/view/SearchResult.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Widget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Widget */ "./src/view/Widget.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var SearchResult = /*#__PURE__*/function (_Widget) {
+  _inherits(SearchResult, _Widget);
+
+  var _super = _createSuper(SearchResult);
+
+  function SearchResult() {
+    var _this;
+
+    _classCallCheck(this, SearchResult);
+
+    _this = _super.call(this);
+    _this.path = ['main.searchingStatus'];
+    _this.searchResult = document.querySelector('.err');
+    return _this;
+  }
+
+  _createClass(SearchResult, [{
+    key: "draw",
+    value: function draw() {
+      if (this.stateGetterAdapter.getSearchingStatus()) {
+        this.searchResult.style.display = 'unset';
+        this.searchResult.classList.add('tracking-in-expand-fwd');
+        this.searchResult.textContent = "Searching for ".concat(this.stateGetterAdapter.getCity(), "...");
+      } else {
+        this.searchResult.style.display = 'none';
+        this.searchResult.textContent = '';
+      }
+    }
+  }]);
+
+  return SearchResult;
+}(_Widget__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (SearchResult);
 
 /***/ }),
 
@@ -34939,13 +35214,14 @@ var Ticker = /*#__PURE__*/function (_Widget) {
     _classCallCheck(this, Ticker);
 
     _this = _super.call(this);
+    _this.path = ['weatherFiveDays', 'control', 'control.tempScale', 'control.lang', 'i18n.default'];
     _this.tickerWrapper = document.querySelector('.ticker-wrapper');
     return _this;
   }
 
   _createClass(Ticker, [{
     key: "draw",
-    value: function draw(path) {
+    value: function draw() {
       if (this.isStateReady()) {
         this.tickerWrapper.innerHTML = '';
         var weather = this.stateGetterAdapter.getFiveDaysForecast();
@@ -34988,6 +35264,42 @@ var Ticker = /*#__PURE__*/function (_Widget) {
 
 /***/ }),
 
+/***/ "./src/view/Tips.js":
+/*!**************************!*\
+  !*** ./src/view/Tips.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Tips = function Tips() {
+  var _this = this;
+
+  _classCallCheck(this, Tips);
+
+  this.tipsBox = document.querySelector('.helper-overlay');
+  this.tipsIcon = document.querySelector('.shake-lr-light');
+  this.closeIcon = document.querySelector('.close-helper');
+  this.body = document.querySelector('body');
+  this.tipsIcon.addEventListener('click', function () {
+    _this.tipsBox.style.top = '0';
+  });
+  this.closeIcon.addEventListener('click', function () {
+    _this.tipsBox.style.top = '-100%';
+  }); // this.body.addEventListener('click', (e) => {
+  // 	if (!e.contains('.shake-lr-light')) {
+  // 		this.tipsBox.style.top = '-100%';
+  // 	}
+  // });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Tips);
+
+/***/ }),
+
 /***/ "./src/view/View.js":
 /*!**************************!*\
   !*** ./src/view/View.js ***!
@@ -35004,7 +35316,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Ticker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Ticker */ "./src/view/Ticker.js");
 /* harmony import */ var _Map__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Map */ "./src/view/Map.js");
 /* harmony import */ var _Search_input__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Search-input */ "./src/view/Search-input.js");
+/* harmony import */ var _Tips__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Tips */ "./src/view/Tips.js");
+/* harmony import */ var _SearchResult__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SearchResult */ "./src/view/SearchResult.js");
+/* harmony import */ var _Errors__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Errors */ "./src/view/Errors.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
 
 
 
@@ -35024,6 +35342,9 @@ var View = function View() {
   this.ticker = new _Ticker__WEBPACK_IMPORTED_MODULE_4__["default"]();
   this.map = new _Map__WEBPACK_IMPORTED_MODULE_5__["default"]();
   this.search = new _Search_input__WEBPACK_IMPORTED_MODULE_6__["default"]();
+  this.tips = new _Tips__WEBPACK_IMPORTED_MODULE_7__["default"]();
+  this.searchResult = new _SearchResult__WEBPACK_IMPORTED_MODULE_8__["default"]();
+  this.errors = new _Errors__WEBPACK_IMPORTED_MODULE_9__["default"]();
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (View);
@@ -35059,13 +35380,20 @@ var Widget = /*#__PURE__*/function () {
     this.model = _model_Model__WEBPACK_IMPORTED_MODULE_2__["default"];
     this.state = _state_state__WEBPACK_IMPORTED_MODULE_0__["default"];
     this.stateGetterAdapter = _state_StateGetterAdapter__WEBPACK_IMPORTED_MODULE_1__["default"];
-    this.state.on('stateUpdated', this.draw.bind(this));
+    this.state.on('stateUpdated', this.update.bind(this));
     this.state.on('stateReady', this.draw.bind(this));
   }
 
   _createClass(Widget, [{
+    key: "update",
+    value: function update(path) {
+      if (this.path.includes(path)) {
+        this.draw();
+      }
+    }
+  }, {
     key: "draw",
-    value: function draw(path) {
+    value: function draw() {
       return this;
     }
   }, {

@@ -4,6 +4,15 @@ class Search extends Widget {
 	constructor() {
 		super();
 
+		this.path = [
+			'control',
+			'control.searchValue',
+			'control.lang',
+			'i18n',
+			'i18n.control',
+			'i18n.default',
+		];
+
 		this.searchContainer = document.querySelector('.search');
 		this.labelSpan = document.querySelector('.input__label-content');
 		this.input = document.querySelector('#input-7');
@@ -32,7 +41,7 @@ class Search extends Widget {
 		});
 	}
 
-	draw(path) {
+	draw() {
 		if (this.isStateReady()) {
 			const text = this.stateGetterAdapter.getInputText();
 			this.createSearchPanel(text);

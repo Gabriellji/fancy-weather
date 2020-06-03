@@ -6,6 +6,15 @@ const stateSetterAdapter = {
 	state,
 	helper,
 
+	setSearchingStatus(status) {
+		this.state.setter('main.searchingStatus', status);
+	},
+
+	setBackUp(value) {
+		this.state.setter('', value);
+		this.state.ready();
+	},
+
 	setCity(city) {
 		this.state.setter('main.city', city);
 	},
@@ -13,14 +22,26 @@ const stateSetterAdapter = {
 	setOptions(locale, tempScale) {
 		this.state.setter('control.lang', locale);
 		this.state.setter('control.tempScale', tempScale);
+		window.localStorage.setItem('options', JSON.stringify({
+			lang: locale,
+			scale: tempScale,
+		}));
 	},
 
 	setLang(locale) {
 		this.state.setter('control.lang', locale);
+		window.localStorage.setItem('options', JSON.stringify({
+			lang: locale,
+			scale: this.state.getter('control.tempScale'),
+		}));
 	},
 
 	setScale(tempScale) {
 		this.state.setter('control.tempScale', tempScale);
+		window.localStorage.setItem('options', JSON.stringify({
+			lang: this.state.getter('control.lang'),
+			scale: tempScale,
+		}));
 	},
 
 	setSearch(search) {
@@ -66,6 +87,10 @@ const stateSetterAdapter = {
 	async setWeatherFiveDays(data) {
 		const weatherFiveDays = await this.helper.fiveDaysWeatherFormat(data);
 		this.state.setter('weatherFiveDays', weatherFiveDays);
+	},
+
+	setErrors(err) {
+		this.state.errorSetter(err);
 	},
 };
 

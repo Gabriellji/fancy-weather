@@ -3,6 +3,17 @@ import state from './state';
 const stateGetterAdapter = {
 	state,
 
+	getSearchingStatus() {
+		return this.state.getter('main.searchingStatus');
+	},
+
+	getOptions() {
+		return {
+			lang: this.state.getter('control.lang'),
+			scale: this.state.getter('control.tempScale'),
+		};
+	},
+
 	getCity() {
 		return this.state.getter('main.city');
 	},
@@ -43,6 +54,10 @@ const stateGetterAdapter = {
 		const text = this.state.getter('control');
 		const i18n = this.state.getter('i18n.default.control');
 		return { text, i18n: { ...i18n } };
+	},
+
+	getErrors() {
+		return this.state.errorGetter();
 	},
 };
 

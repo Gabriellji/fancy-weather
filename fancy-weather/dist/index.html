@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/ticker.css"/>
     <link rel="stylesheet" type="text/css" href="css/map.css"/>
     <link rel="stylesheet" type="text/css" href="css/preloader.css"/>
+    <link rel="stylesheet" type="text/css" href="css/tips.css"/>
     <link rel="stylesheet" type="text/css" href="assets/fonts/stylesheet.css"/>
     
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
@@ -19,6 +20,55 @@
     <div class="overlay">
     <div class="preloader">
         <span class="loading">loading...</span>
+    </div>
+</div>
+<div class="helper-overlay">
+    <span class="help">
+        <img src="assets/microphone-solid.svg" alt="tips" class="tipp">
+        Search by voice
+    </span>
+    <span class="help">
+        <img src="assets/volume-up-solid.svg" alt="tips" class="tipp">
+        Listen Current Weather
+    </span>
+    <span class="help">
+        <img src="assets/volume-off-solid.svg" alt="tips" class="tipp">
+        Stop Listen
+    </span>
+    <span class="close-helper">
+        <img src="assets/times-solid.svg" alt="close" class="close-help">
+    </span>
+</div>
+<div class="helper">
+    <div class="tips shake-lr-light">
+        <svg  class="tip" 
+        version="1.1" id="Capa_1" 
+        xmlns="http://www.w3.org/2000/svg" 
+        xmlns:xlink="http://www.w3.org/1999/xlink" 
+        x="0px" y="0px"
+     viewBox="0 0 512 512" 
+     style="enable-background:new 0 0 512 512;" 
+     xml:space="preserve">
+<g>
+    <path style="fill:#D1D4D1;" 
+    d="M256,512c-19.501,0-35.31-15.809-35.31-35.31v-17.655h70.621v17.655
+		C291.31,496.191,275.501,512,256,512z"/>
+    <path style="fill:#A5A5A4;" 
+    d="M203.034,406.069h105.931v52.966c0,9.751-7.905,17.655-17.655,17.655H220.69
+		c-9.751,0-17.655-7.905-17.655-17.655V406.069z"/>
+	<g>
+        <path class="light" 
+        d="M378.729,241.229c4.646,38.359-8.96,76.677-36.756,103.518
+            c-15.43,14.879-24.157,35.386-24.181,56.821v13.329c0,
+            4.875-3.952,8.828-8.828,8.828H203.034c-4.875,
+            0-8.828-3.952-8.828-8.828
+            v-13.259c-0.323-21.913-9.417-42.781-25.248-57.935c-38.447-38.159-47.565-96.907-22.493-144.924s78.49-74.112,
+            131.777-64.373
+            S372.263,187.447,378.729,
+            241.229L378.729,241.229z"/>
+	</g>
+</g>
+</svg>
     </div>
 </div>
     <main class="main">
@@ -65,27 +115,6 @@
                     </path>
                     </svg>
                 </span>
-                <!-- <span class="btn-clean">
-                    <svg aria-hidden="true" 
-                    focusable="false" data-prefix="fas" 
-                    data-icon="times" 
-                    class="svg-inline--fa fa-times fa-w-11" 
-                    role="img" xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 352 512">
-                    <path d="M242.72 256l100.07-100.07c12.28-12.28 
-                    12.28-32.19 
-                    0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 
-                    0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 
-                    0L9.21 111.45c-12.28 12.28-12.28 32.19 
-                    0 44.48L109.28 256 9.21 356.07c-12.28 
-                    12.28-12.28 32.19 0 44.48l22.24 
-                    22.24c12.28 12.28 32.2 12.28 44.48 
-                    0L176 322.72l100.07 100.07c12.28 
-                    12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 
-                    12.28-32.19 0-44.48L242.72 256z">
-                    </path>
-                    </svg>
-                </span> -->
               <span class="btn-search">
                   <svg aria-hidden="true" 
                   focusable="false" 
@@ -125,6 +154,7 @@
             </span>
             </div>
             <div class="errors">
+                <span class="new-errors"></span>
                 <span class="err"></span>
             </div>
         </div>

@@ -7,13 +7,23 @@ class Map extends Widget {
 	constructor() {
 		super();
 
+		this.path = [
+			'map',
+			'map.lat',
+			'map.long',
+			'i18n',
+			'i18n.control',
+			'i18n.control.lang',
+			'i18n.default',
+		];
+
 		this.weatherWrapper = document.querySelector('.weazzz');
 		this.createMapBox();
 		mapboxgl.accessToken = config.accesKey;
 
 		this.mapBoxgl = new mapboxgl.Map({
 			container: 'map',
-			zoom: 8,
+			zoom: 10,
 			style: 'mapbox://styles/mapbox/streets-v11',
 		});
 	}

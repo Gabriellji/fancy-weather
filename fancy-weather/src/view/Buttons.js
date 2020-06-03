@@ -6,6 +6,15 @@ class Buttons extends Widget {
 		super();
 		this.state = state;
 
+		this.path = [
+			'control',
+			'control.lang',
+			'control.tempScale',
+			'weatherToday',
+			'i18n',
+			'i18n.default',
+		];
+
 		this.buttonsPanel = document.querySelector('.buttons');
 	}
 
@@ -40,7 +49,7 @@ class Buttons extends Widget {
 		const button = document.createElement('button');
 		button.classList.add('c-smileyButton');
 		button.textContent = '&nbsp';
-		button.textContent = 'Click'; // &nbsp;
+		button.textContent = 'Click';
 
 		const smileFace = document.createElement('span');
 		smileFace.classList.add('c-smileyButton__face');

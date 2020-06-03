@@ -4,10 +4,18 @@ class Ticker extends Widget {
 	constructor() {
 		super();
 
+		this.path = [
+			'weatherFiveDays',
+			'control',
+			'control.tempScale',
+			'control.lang',
+			'i18n.default',
+		];
+
 		this.tickerWrapper = document.querySelector('.ticker-wrapper');
 	}
 
-	draw(path) {
+	draw() {
 		if (this.isStateReady()) {
 			this.tickerWrapper.innerHTML = '';
 			const weather = this.stateGetterAdapter.getFiveDaysForecast();

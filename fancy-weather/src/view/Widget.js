@@ -9,11 +9,17 @@ class Widget {
 		this.state = state;
 		this.stateGetterAdapter = stateGetterAdapter;
 
-		this.state.on('stateUpdated', this.draw.bind(this));
+		this.state.on('stateUpdated', this.update.bind(this));
 		this.state.on('stateReady', this.draw.bind(this));
 	}
 
-	draw(path) {
+	update(path) {
+		if (this.path.includes(path)) {
+			this.draw();
+		}
+	}
+
+	draw() {
 		return this;
 	}
 

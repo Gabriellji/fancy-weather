@@ -14,6 +14,7 @@ const state = {
 		main: {
 			bgUrl: '',
 			city: '',
+			searchingStatus: false,
 		},
 		control: {
 			langOptions: [],
@@ -22,6 +23,7 @@ const state = {
 			searchValue: '',
 			is_day: '',
 		},
+		errors: [],
 		weatherToday: {
 			place: '',
 			dataTime: '',
@@ -85,7 +87,22 @@ const state = {
 		},
 	},
 
+	errorSetter(err) {
+		this.store.errors.push(err);
+		this.emit('stateUpdated', 'errors');
+	},
+
+	errorGetter() {
+		const { errors } = this.store;
+		this.store.errors = [];
+		return errors;
+	},
+
 	setter(path, value) {
+		if (path === '') {
+			this.store = value;
+			return;
+		}
 		const pathArr = path.split('.');
 		pathArr.reduce((acc, key, idx, arr) => {
 			if (typeof acc[key] !== 'object' || idx === arr.length - 1) {
@@ -94,12 +111,16 @@ const state = {
 			return acc[key];
 		}, this.store);
 
+
 		if (this.isReady) {
 			this.emit('stateUpdated', path);
 		}
 	},
 
 	getter(path) {
+		if (path === '') {
+			return this.store;
+		}
 		const pathArr = path.split('.');
 		return pathArr.reduce((acc, key) => acc[key], this.store);
 	},

@@ -4,12 +4,18 @@ class ForecastWeather extends Widget {
 	constructor() {
 		super();
 
+		this.path = [
+			'weatherThreeDays',
+			'i18n',
+			'i18n.default',
+		];
+
 		this.weatherPanel = document.querySelector('.weather-main');
 		this.weatherWrapper = document.querySelector('.main-wrapper');
 		this.weatherData = document.querySelector('.weather-data');
 	}
 
-	draw(path) {
+	draw() {
 		if (this.isStateReady()) {
 			const weather = this.stateGetterAdapter.getThreeDaysForecast();
 			this.createForecastPanel(weather);
