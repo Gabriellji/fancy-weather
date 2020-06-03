@@ -34761,7 +34761,7 @@ var Errors = /*#__PURE__*/function (_Widget) {
       this.textBox.style.display = 'unset';
       setTimeout(function () {
         _this2.textBox.style.display = 'none';
-      }, 9000);
+      }, 6000);
     }
   }]);
 

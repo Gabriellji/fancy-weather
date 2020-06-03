@@ -25,7 +25,7 @@ class Errors extends Widget {
 		this.textBox.style.display = 'unset';
 		setTimeout(() => {
 			this.textBox.style.display = 'none';
-		}, 9000);
+		}, 6000);
 	}
 }
 
