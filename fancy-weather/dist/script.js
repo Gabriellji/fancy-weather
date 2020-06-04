@@ -32797,11 +32797,11 @@ var backgroundAPI = {
 
               if (_this.state.getter('control.is_day')) {
                 query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=cloud,islands,outdoor,asia&per_page=1&client_id=").concat(_this.accesKey);
-                console.log('---Данные о параметрах запроса фонового изображения для ДЕНЬ---');
+                console.log('---Данные запроса фонового изображения---');
                 console.log('cloud,islands,outdoor,palms');
               } else {
                 query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=night,cloud,nature,moon&per_page=1&client_id=").concat(_this.accesKey);
-                console.log('---Данные о параметрах запроса фонового изображения для НОЧЬ---');
+                console.log('---Данные запроса фонового изображения---');
                 console.log('night,cloud,nature,moon');
               }
 
@@ -34936,7 +34936,7 @@ var Map = /*#__PURE__*/function (_Widget) {
 
   _createClass(Map, [{
     key: "draw",
-    value: function draw(path) {
+    value: function draw() {
       if (this.isStateReady()) {
         this.coordinates.innerHTML = '';
         var coords = this.stateGetterAdapter.getCoordinates();
@@ -35052,6 +35052,7 @@ var Search = /*#__PURE__*/function (_Widget) {
     _this.cleanButton = document.querySelector('.clean');
     _this.searchButton = document.querySelector('.btn-search');
     _this.voiceButton = document.querySelector('.btn-voice');
+    _this.iconVoice = document.querySelector('.lala');
 
     _this.searchButton.addEventListener('click', function () {
       _this.model.searchCity(_this.input.value);
@@ -35061,6 +35062,12 @@ var Search = /*#__PURE__*/function (_Widget) {
 
     _this.voiceButton.addEventListener('click', function () {
       _this.model.searchCityVoice(_this.input.value);
+
+      _this.iconVoice.classList.add('active-microphone');
+
+      setTimeout(function () {
+        _this.iconVoice.classList.remove('active-microphone');
+      }, 4000);
     });
 
     _this.input.addEventListener('keydown', function (e) {

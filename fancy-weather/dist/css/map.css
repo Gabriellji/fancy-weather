@@ -3,6 +3,17 @@
     display:flex;
     flex-direction:column;
     }
+
+    .map .mapboxgl-map{
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 75% 90%, 75% 100%, 65% 90%, 0 90%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 75% 90%, 75% 100%, 65% 90%, 0 90%);
+    border-radius: 0;
+    }
+
+    .map .mapboxgl-map .mapboxgl-canvas {
+        -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 75% 90%, 75% 100%, 65% 90%, 0 90%);
+        clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 75% 90%, 75% 100%, 65% 90%, 0 90%);
+    }
     
     @media (max-width: 580px) {
     .mapboxgl-map {

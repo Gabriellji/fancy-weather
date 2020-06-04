@@ -20,6 +20,8 @@ class Search extends Widget {
 		this.searchButton = document.querySelector('.btn-search');
 		this.voiceButton = document.querySelector('.btn-voice');
 
+		this.iconVoice = document.querySelector('.lala');
+
 		this.searchButton.addEventListener('click', () => {
 			this.model.searchCity(this.input.value);
 			this.input.value = '';
@@ -27,6 +29,10 @@ class Search extends Widget {
 
 		this.voiceButton.addEventListener('click', () => {
 			this.model.searchCityVoice(this.input.value);
+			this.iconVoice.classList.add('active-microphone');
+			setTimeout(() => {
+				this.iconVoice.classList.remove('active-microphone');
+			}, 4000);
 		});
 
 		this.input.addEventListener('keydown', (e) => {

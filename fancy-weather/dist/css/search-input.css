@@ -220,13 +220,16 @@
 	}
 	
 	.shake-lr:hover {
-	fill:#91c0f8a8;
 	-webkit-animation:shake-lr .7s cubic-bezier(0.455,0.030,0.515,0.955) both;
 	animation:shake-lr .7s cubic-bezier(0.455,0.030,0.515,0.955) both;
 	}
 	
 	.shake-lr:active {
 	fill:orange;
+	}
+
+	.active-microphone {
+		fill:orange;
 	}
 
 	.clean:active {
