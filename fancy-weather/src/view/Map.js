@@ -28,12 +28,16 @@ class Map extends Widget {
 		});
 	}
 
-	draw(path) {
+	draw() {
 		if (this.isStateReady()) {
 			this.coordinates.innerHTML = '';
 			const coords = this.stateGetterAdapter.getCoordinates();
 			this.createMap(coords);
 			this.mapBoxgl.setCenter([coords.long, coords.lat]);
+
+			this.marker = new mapboxgl.Marker()
+				.setLngLat([coords.long, coords.lat])
+				.addTo(this.mapBoxgl);
 		}
 	}
 

@@ -32797,9 +32797,11 @@ var backgroundAPI = {
 
               if (_this.state.getter('control.is_day')) {
                 query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=cloud,islands,outdoor,asia&per_page=1&client_id=").concat(_this.accesKey);
+                console.log('---Данные о параметрах запроса фонового изображения для ДЕНЬ---');
                 console.log('cloud,islands,outdoor,palms');
               } else {
                 query = "".concat(_this.url, "?orientation=").concat(_this.orientation, "&query=night,cloud,nature,moon&per_page=1&client_id=").concat(_this.accesKey);
+                console.log('---Данные о параметрах запроса фонового изображения для НОЧЬ---');
                 console.log('night,cloud,nature,moon');
               }
 
@@ -32905,8 +32907,8 @@ var geocodingAPI = _objectSpread({}, _config_geocodingAPIConfig__WEBPACK_IMPORTE
             case 10:
               data = _context.sent;
               return _context.abrupt("return", {
-                lat: data.results[0].bounds.northeast.lat,
-                "long": data.results[0].bounds.northeast.lng
+                lat: data.results[0].geometry.lat,
+                "long": data.results[0].geometry.lng
               });
 
             case 12:
@@ -34940,6 +34942,7 @@ var Map = /*#__PURE__*/function (_Widget) {
         var coords = this.stateGetterAdapter.getCoordinates();
         this.createMap(coords);
         this.mapBoxgl.setCenter([coords["long"], coords.lat]);
+        this.marker = new mapbox_gl_dist_mapbox_gl__WEBPACK_IMPORTED_MODULE_0___default.a.Marker().setLngLat([coords["long"], coords.lat]).addTo(this.mapBoxgl);
       }
     }
   }, {

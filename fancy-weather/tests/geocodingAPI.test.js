@@ -39,7 +39,7 @@ describe('GeocodingAPIReverse test', () => {
 
 	test('is right data', async () => {
 		const data = await GeocodingAPI.loadGeoCodeReverse('53.9', '27.57');
-		expect(data).toBe('Minsk');
+		expect(data).toBe('Belarus, 220030 Minsk, улица Янки Купалы, 5, Дом Ахмеда Офли');
 	});
 
 	test('is object', async () => {

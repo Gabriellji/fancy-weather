@@ -17,8 +17,8 @@ const geocodingAPI = {
 
 		const data = await response.json();
 		return {
-			lat: data.results[0].bounds.northeast.lat,
-			long: data.results[0].bounds.northeast.lng,
+			lat: data.results[0].geometry.lat,
+			long: data.results[0].geometry.lng,
 		};
 	},
 

@@ -48,11 +48,11 @@ describe('getMonths', () => {
 
 describe('getDateTime', () => {
 	test('get 20.05.20', () => {
-		expect(stateHelper.getDateTime('2020-05-20 16:30')).toEqual('Wed May 20 2020 16:30');
+		expect(stateHelper.getDateTime('2020-05-20 16:30')).toEqual('Wednesday, May 20th');
 	});
 
 	test('get 22.05.20', () => {
-		expect(stateHelper.getDateTime('2020-05-22 16:30')).toEqual('Fri May 22 2020 16:30');
+		expect(stateHelper.getDateTime('2020-05-22 16:30')).toEqual('Friday, May 22nd');
 	});
 });
 
@@ -86,7 +86,7 @@ describe('CurrentWeatherFormat', () => {
 	test('en C', async () => {
 		const output = {
 			place: 'Minsk, Belarus',
-			dataTime: 'Fri May 22 2020 16:02',
+			dataTime: 'Friday, May 22nd',
 			temp: 10,
 			condition: 'Partly cloudy',
 			iconUrl: '//cdn.weatherapi.com/weather/64x64/day/116.png',
