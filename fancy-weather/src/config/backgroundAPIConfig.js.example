@@ -1,0 +1,8 @@
+const backgroundApiConfig = {
+	url: 'https://api.unsplash.com/photos/random',
+	accesKey: ''
+	collectionsID: '2411320',
+	orientation: 'landscape',
+};
+
+export default backgroundApiConfig;

@@ -1,0 +1,7 @@
+node_modules
+src/config/backgroundAPIConfig.js
+src/config/geocodingAPIConfig.js
+src/config/geolocationAPIConfig.js
+src/config/mapAPIConfig.js
+src/config/translationAPIConfig.js
+src/config/weatherAPIConfig.js

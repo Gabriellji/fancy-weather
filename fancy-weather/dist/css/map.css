@@ -1,0 +1,33 @@
+.map {
+    margin:4rem 0 6rem;
+    display:flex;
+    flex-direction:column;
+    }
+
+    .map .mapboxgl-map{
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 75% 90%, 75% 100%, 65% 90%, 0 90%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 75% 90%, 75% 100%, 65% 90%, 0 90%);
+    border-radius: 0;
+    }
+
+    .map .mapboxgl-map .mapboxgl-canvas {
+        -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 75% 90%, 75% 100%, 65% 90%, 0 90%);
+        clip-path: polygon(0% 0%, 100% 0%, 100% 90%, 75% 90%, 75% 100%, 65% 90%, 0 90%);
+    }
+    
+    @media (max-width: 580px) {
+    .mapboxgl-map {
+    width:35rem;
+    height:35rem;
+    align-self:center;
+    }
+    }
+    
+    @media (max-width: 470px) {
+    .mapboxgl-map {
+    width:30rem;
+    height:30rem;
+    width:27rem;
+    height:27rem;
+    }
+    }
